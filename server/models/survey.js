@@ -20,6 +20,9 @@ let surveySchema = Schema
             type: [Question]
         }
     }
+    {
+        collection : 'surveys'
+    }
 )
 
 module.exports = Model('Survey', surveySchema);
