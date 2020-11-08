@@ -1,3 +1,11 @@
+/*\
+ * Team: Turboencabulator
+ * Class: COMP 229
+ * Group: 2
+ * Section: 3
+ * File: ./models/survey.js
+\*/
+
 let mongoose = require('mongoose');
 
 let Schema = mongoose.Schema;

@@ -1,3 +1,11 @@
+/*\
+ * Team: Turboencabulator
+ * Class: COMP 229
+ * Group: 2
+ * Section: 3
+ * File: ./config/app.js
+\*/
+
 let createError = require('http-errors');
 let express = require('express');
 let path = require('path');

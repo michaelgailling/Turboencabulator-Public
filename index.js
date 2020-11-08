@@ -1,5 +1,13 @@
 #!/usr/bin/env node
 
+/*\
+ * Team: Turboencabulator
+ * Class: COMP 229
+ * Group: 2
+ * Section: 3
+ * File: ./index.js
+\*/
+
 /**
  * Module dependencies.
  */
