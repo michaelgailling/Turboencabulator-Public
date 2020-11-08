@@ -5,7 +5,7 @@
  * Class: COMP 229
  * Group: 2
  * Section: 3
- * File: ./index.js
+ * File: ./server.js
 \*/
 
 /**
