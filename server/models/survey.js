@@ -19,7 +19,7 @@ let surveySchema = Schema
         {
             type: [Question]
         }
-    }
+    },
     {
         collection : 'surveys'
     }
