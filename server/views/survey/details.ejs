@@ -1,0 +1,100 @@
+<% include ../partials/header.ejs %>
+<% include ../partials/main_nav.ejs %>
+
+<main class="container">
+  <h1><%= title %></h1>
+  <p>Welcome to <%= title %></p>
+  <br>
+  <form class="form" method="post">
+    <div class="form-group">
+        <div class="col">
+            <label for="TitleTextField">Title</label>
+            <input type="text" class="form-control" id="TitleTextField"
+            placeholder="Survey Title" name="title" value="<%= survey.title %>" required>
+        </div>
+    </div>
+    <% for(let count = 0; count <  questions.length; count++) { %>
+        <div class="form-group">
+            <div class="row">
+
+                <div class="col">
+                    <label for="questionText<%= count %>">Question Text</label>
+                    <input type="text" class="form-control" id="questionText<%= count %>"
+                    placeholder="Question Text" name="questionText<%= count %>" value="<%= questions[count].text %>" required>
+                </div>
+                <div class="col">
+                    <label for="questionType<%= count %>">Question Type</label>
+                    <select id="questionType<%= count %>" name="questionType<%= count %>">
+                        <% if(questions[count].type == "text") { %>
+                            <option value="text" selected>
+                                Text
+                            </option>
+                        <% } else { %>
+                            <option value="text">
+                                Text
+                            </option>
+                        <% } %>
+
+                        <% if(questions[count].type == "number") { %>
+                            <option value="text" selected>
+                                Number
+                            </option>
+                        <% } else { %>
+                            <option value="number">
+                                Number
+                            </option>
+                        <% } %>
+
+                        <% if(questions[count].type == "time") { %>
+                            <option value="time" selected>
+                                Time
+                            </option>
+                        <% } else { %>
+                            <option value="time">
+                                Time
+                            </option>
+                        <% } %>
+
+                        <% if(questions[count].type == "date") { %>
+                            <option value="date" selected>
+                                Date
+                            </option>
+                        <% } else { %>
+                            <option value="date">
+                                Date
+                            </option>
+                        <% } %>
+
+                        <% if(questions[count].type == "select") { %>
+                            <option value="select" selected>
+                                Choose One
+                            </option>
+                        <% } else { %>
+                            <option value="select">
+                                Choose One
+                            </option>
+                        <% } %>
+
+                        <% if(questions[count].type == "checkbox") { %>
+                            <option value="checkbox" selected>
+                                Choose Multiple
+                            </option>
+                        <% } else { %>
+                            <option value="checkbox">
+                                Choose Multiple
+                            </option>
+                        <% } %>
+                    </select>
+                </div>
+            
+            </div>
+        </div>
+    <% } %>
+    <button type="submit" class="btn btn-primary"><i class="fa fa-check-square-o"></i> Submit</button>
+    <a href="/survey" class="btn btn-warning"><i class="fa fa-undo"></i> Cancel</a>
+  </form>
+</main>
+
+    
+<% include ../partials/bottom_nav.ejs %>
+<% include ../partials/footer.ejs %>
