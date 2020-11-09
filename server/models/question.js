@@ -17,14 +17,14 @@ let questionSchema = Schema
         text:
         {
             type: String,
-            default:"",
+            default:"Question goes here.",
             trim:true,
             required: "Question text is required..."
         },
         type:
         {
             type: String,
-            default:"",
+            default:"text",
             trim: true,
             required: "Type is required..."
         },
