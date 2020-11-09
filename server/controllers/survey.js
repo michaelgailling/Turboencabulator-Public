@@ -18,6 +18,7 @@ let Question = require('../models/question');
 
 module.exports.displaySurveyList = (req,res,next) => 
 {
+    //Find and list all the surveys
     Survey.find( (err, surveys) => {
         if (err) {
           return console.error(err);
@@ -35,6 +36,7 @@ module.exports.displaySurveyList = (req,res,next) =>
 
 module.exports.displayCreateSurvey = (req,res,next) =>
 {
+    //Create new base objects for survey creation
     let newQuestion = new Question({
         text:"New Question",
         type:"text",
@@ -49,7 +51,7 @@ module.exports.displayCreateSurvey = (req,res,next) =>
 module.exports.displayEditSurvey = (req,res,next) =>
 {
     let id = req.params.id;
-  //Find the book based on record id
+  //Find the survey based on record id
   Survey.findById(id, (err, currentsurvey) => {
       if(err)
       {
@@ -58,6 +60,7 @@ module.exports.displayEditSurvey = (req,res,next) =>
       }
       else
       {
+          //questons is sent as its own list
           let questions = currentsurvey.questionlist;
           res.render('survey/details', {title : "Edit Survey", survey : currentsurvey, questions : questions});
       }
