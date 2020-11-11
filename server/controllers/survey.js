@@ -42,11 +42,55 @@ module.exports.displayCreateSurvey = (req,res,next) =>
         type:"text",
         options:[]
     });
-    let newSurvey = new Survey({
-        title:"New Survey"
+    let newQuestion2 = new Question({
+        text:"New Question",
+        type:"text",
+        options:[]
     });
-    return res.render('survey/details', {title: 'Create Survey', survey: newSurvey, questions:[newQuestion]});
+    let newSurvey = new Survey({
+        title:"New Survey",
+        questionlist:[newQuestion,newQuestion2]
+    });
+
+    return res.render('survey/details', {title: 'Create Survey', survey: newSurvey});
 }
+
+module.exports.createSurvey = (req,res,next) => {
+
+    let data = req.body;
+
+    let newSurvey = new Survey({
+        title: data.title,
+        questionlist:[]
+    });
+
+    let questionTextArray = data.questionText;
+    let questionTypeArray = data.questionType;
+
+    for(let i = 0; i < questionTextArray.length; i++){
+        let question = new Question({
+            text:questionTextArray[i],
+            type:questionTypeArray[i],
+            options:[]
+        });
+
+        newSurvey.questionlist.push(question);
+    }
+
+    console.log(newSurvey);
+
+    Survey.create(newSurvey, (err, Contact) => {
+        if(err)
+        {
+            console.error(err);
+            res.end(err);
+        }
+        else
+        {
+            res.redirect('/survey');
+        }
+    });
+};
 
 module.exports.displayEditSurvey = (req,res,next) =>
 {
@@ -65,4 +109,60 @@ module.exports.displayEditSurvey = (req,res,next) =>
           res.render('survey/details', {title : "Edit Survey", survey : currentsurvey, questions : questions});
       }
   });
+}
+
+
+module.exports.editSurvey = (req,res,next) => {
+    let id = req.params.id;
+    let data = req.body;
+
+    let updatedSurvey = new Survey({
+        "_id": id,
+        title: data.title,
+        questionlist:[]
+    });
+
+    let questionTextArray = data.questionText;
+    let questionTypeArray = data.questionType;
+
+    for(let i = 0; i < questionTextArray.length; i++){
+        let question = new Question({
+            text:questionTextArray[i],
+            type:questionTypeArray[i],
+            options:[]
+        });
+
+        updatedSurvey.questionlist.push(question);
+    }
+
+    Survey.updateOne({_id:id}, updatedSurvey, (err) => {
+        if(err)
+        {
+            console.error(err);
+            res.end(err);
+        }
+        else
+        {
+            res.redirect('/survey');
+        }
+    });
+}
+
+
+
+module.exports.deleteSurvey = (req,res,next) => {
+    let id = req.params.id;
+
+    Survey.remove({_id:id}, (err)=>{
+        if(err)
+        {
+            console.error(err);
+            res.end(err);
+        }
+        else
+        {
+            res.redirect('/survey');
+        }
+    });
+
 }

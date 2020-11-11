@@ -2,99 +2,207 @@
 <% include ../partials/main_nav.ejs %>
 
 <main class="container">
-  <h1><%= title %></h1>
-  <p>Welcome to <%= title %></p>
-  <br>
-  <form class="form" method="post">
-    <div class="form-group">
-        <div class="col">
-            <label for="TitleTextField">Title</label>
-            <input type="text" class="form-control" id="TitleTextField"
-            placeholder="Survey Title" name="title" value="<%= survey.title %>" required>
-        </div>
-    </div>
-    <% for(let count = 0; count <  questions.length; count++) { %>
-        <div class="form-group">
-            <div class="row">
-
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <br>
+    <a type="button" class="btn btn-primary" onclick="addQuestion();">Add Question <i class="fas fa-plus"></i></a>
+    <form class="form" method="post" id="surveyForm">
+        <fieldset id="mainFieldset">
+            <div class="form-group">
                 <div class="col">
-                    <label for="questionText<%= count %>">Question Text</label>
-                    <input type="text" class="form-control" id="questionText<%= count %>"
-                    placeholder="Question Text" name="questionText<%= count %>" value="<%= questions[count].text %>" required>
+                    <label for="TitleTextField">Title</label>
+                    <input type="text" class="form-control" id="TitleTextField" placeholder="Survey Title" name="title"
+                        value="<%= survey.title %>" required>
                 </div>
-                <div class="col">
-                    <label for="questionType<%= count %>">Question Type</label>
-                    <select id="questionType<%= count %>" name="questionType<%= count %>">
-                        <% if(questions[count].type == "text") { %>
+            </div>
+            <% for(let count = 0; count < survey.questionlist.length; count++) { %>
+
+            <% let question = survey.questionlist[count] %>
+            <% let questionGroupId = "questionGroup" + count %>
+
+            <div class="form-group" id="<%= questionGroupId %>">
+                <div class="row">
+                    <div class="col">
+                        <label for="questionText<%= count %>">Question Text</label>
+                        <input type="text" class="form-control" id="questionText<%= count %>"
+                            placeholder="Question Text" name="questionText" value="<%= question.text %>" required>
+                    </div>
+                    <div class="col">
+                        <label for="questionType<%= count %>">Question Type</label>
+                        <select id="questionType<%= count %>" name="questionType" class="form-control">
+                            <% if(question.type == "text") { %>
                             <option value="text" selected>
                                 Text
                             </option>
-                        <% } else { %>
+                            <% } else { %>
                             <option value="text">
                                 Text
                             </option>
-                        <% } %>
+                            <% } %>
 
-                        <% if(questions[count].type == "number") { %>
+                            <% if(question.type == "number") { %>
                             <option value="text" selected>
                                 Number
                             </option>
-                        <% } else { %>
+                            <% } else { %>
                             <option value="number">
                                 Number
                             </option>
-                        <% } %>
+                            <% } %>
 
-                        <% if(questions[count].type == "time") { %>
+                            <% if(question.type == "time") { %>
                             <option value="time" selected>
                                 Time
                             </option>
-                        <% } else { %>
+                            <% } else { %>
                             <option value="time">
                                 Time
                             </option>
-                        <% } %>
+                            <% } %>
 
-                        <% if(questions[count].type == "date") { %>
+                            <% if(question.type == "date") { %>
                             <option value="date" selected>
                                 Date
                             </option>
-                        <% } else { %>
+                            <% } else { %>
                             <option value="date">
                                 Date
                             </option>
-                        <% } %>
+                            <% } %>
 
-                        <% if(questions[count].type == "select") { %>
+                            <% if(question.type == "select") { %>
                             <option value="select" selected>
                                 Choose One
                             </option>
-                        <% } else { %>
+                            <% } else { %>
                             <option value="select">
                                 Choose One
                             </option>
-                        <% } %>
+                            <% } %>
 
-                        <% if(questions[count].type == "checkbox") { %>
+                            <% if(question.type == "checkbox") { %>
                             <option value="checkbox" selected>
                                 Choose Multiple
                             </option>
-                        <% } else { %>
+                            <% } else { %>
                             <option value="checkbox">
                                 Choose Multiple
                             </option>
-                        <% } %>
-                    </select>
+                            <% } %>
+                        </select>
+                    </div>
+                    <% if(count > 0) { %>
+                    <a type="button" class="btn btn-danger" onclick="removeQuestion('<%= questionGroupId %>');"><i
+                            class="fas fa-times"></i></a>
+                    <% } %>
+
                 </div>
-            
+
+
             </div>
-        </div>
-    <% } %>
-    <button type="submit" class="btn btn-primary"><i class="fa fa-check-square-o"></i> Submit</button>
-    <a href="/survey" class="btn btn-warning"><i class="fa fa-undo"></i> Cancel</a>
-  </form>
+            <% } %>
+        </fieldset>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-check-square-o"></i> Submit</button>
+        <a href="/survey" class="btn btn-warning"><i class="fa fa-undo"></i> Cancel</a>
+    </form>
+    
 </main>
 
-    
+<script>
+    //Please ignore any red underlines here, they lie
+    let numOfQuestions = <%- survey.questionlist.length %>;
+
+    let addQuestion = () => 
+    {
+        //Create the html elements to construct a new question group
+
+        let newQuestionGroup = document.createElement('div');
+        newQuestionGroup.id = "questionGroup" + numOfQuestions;
+        newQuestionGroup.className = "form-group";
+
+        let newQuestionRow = document.createElement('div');
+        newQuestionRow.className = "row";
+
+        let questionTextCol = document.createElement('div');
+        questionTextCol.className = "col";
+
+        let questionTypeCol = document.createElement('div');
+        questionTypeCol.className = "col";
+
+        //Create Labels for inputs
+        let questionTextLabel = document.createElement('label');
+        questionTextLabel.htmlFor = "questionText" + numOfQuestions;
+        questionTextLabel.textContent = "Question Text";
+
+        let questionTypeLabel = document.createElement('label');
+        questionTypeLabel.htmlFor = "questionType" + numOfQuestions;
+        questionTypeLabel.textContent = "Question Type";
+
+        questionTextCol.appendChild(questionTextLabel);
+        questionTypeCol.appendChild(questionTypeLabel);
+        
+        //Create questonText Element for holding the question text
+        let questionText = document.createElement('input');
+        questionText.type = "text";
+        questionText.id = "questionText" + numOfQuestions;
+        questionText.name = "questionText";
+        questionText.value = "New Question";
+        questionText.className = "form-control";
+
+        questionTextCol.appendChild(questionText);
+
+        //Create questionType Selection Box to store queston type
+        let questionType = document.createElement('select');
+        questionType.id = "questionType" + numOfQuestions;
+        questionType.name = "quesitonType";
+        questionType.className = "form-control";
+
+        //Create the options and fill the selection box
+        let optionLabels = ["Text","Number","Time","Date","Choose One", "Choose Multiple"]
+        let options = ["text","number","time","date","select","checkbox"]
+
+        for(let i = 0; i < options.length; i++){
+            let option = document.createElement('option');
+            option.value = options[i];
+            option.textContent = optionLabels[i];
+
+            questionType.appendChild(option);
+        }
+
+        //Create a button to remove input elements
+        let removeButton = document.createElement('a');
+        removeButton.onclick = "removeQuestion(" + newQuestionGroup.id + ")";
+        removeButton.type = "button";
+        removeButton.classList.add("btn");
+        removeButton.classList.add("btn-danger")
+        removeButton.innerHTML = "<i class='fas fa-times'></i>";
+
+        questionTypeCol.appendChild(questionType);
+        
+        newQuestionRow.appendChild(questionTextCol);
+
+        newQuestionRow.appendChild(questionTypeCol);
+
+        newQuestionRow.appendChild(removeButton);
+
+        newQuestionGroup.appendChild(newQuestionRow);
+
+        let mainFieldset  = document.getElementById("mainFieldset");
+
+        mainFieldset.appendChild(newQuestionGroup);
+
+        numOfQuestions += 1;
+    }
+
+    let removeQuestion = (questionGroupId) => {
+        let questionGroup = document.getElementById(questionGroupId);
+
+        if(questionGroup){
+            questionGroup.parentNode.removeChild(questionGroup);
+            numOfQuestions -= 1;
+        }
+    }
+</script>
+
 <% include ../partials/bottom_nav.ejs %>
 <% include ../partials/footer.ejs %>
