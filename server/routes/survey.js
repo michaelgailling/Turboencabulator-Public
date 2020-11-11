@@ -23,7 +23,7 @@ router.post('/create', surveyController.createSurvey);
 /* GET edit survey page - UPDATE */
 router.get('/edit/:id', surveyController.displayEditSurvey);
 
-/* POST Route for editing a Contact in db - UPDATE */
+/* POST Route for editing a Surrvey in db - UPDATE */
 router.post('/edit/:id', surveyController.editSurvey);
 
 /* GET Route for performing a Survey delete - DELETE */
