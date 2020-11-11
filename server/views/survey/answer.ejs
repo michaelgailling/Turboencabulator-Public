@@ -1,0 +1,146 @@
+<% include ../partials/header.ejs %>
+<% include ../partials/main_nav.ejs %>
+
+<main class="container">
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <br>
+    <a type="button" class="btn btn-primary" onclick="addAnswer();">AddAnswer <i class="fas fa-plus"></i></a>
+    <form class="form" method="post" id="surveyForm">
+        <fieldset id="mainFieldset">
+            <div class="form-group">
+                <div class="col">
+                    <label for="TitleTextField">Title</label>
+                    <input type="text" class="form-control" id="TitleTextField" placeholder="Survey Title" name="title"
+                        value="<%= survey.title %>" required>
+                </div>
+            </div>
+            <% for(let count = 0; count < survey.answerlist.length; count++) { %>
+
+            <% let answer = survey.answerlist[count] %>
+            <% let answerGroupId = "answerGroup" + count %>
+
+            <div class="form-group" id="<%= answerGroupId %>">
+                <div class="row">
+                    <div class="col">
+                        <label for="answerText<%= count %>">Answer Text</label>
+                        <input type="text" class="form-control" id="answerText<%= count %>"
+                            placeholder="Answer Text" name="answerText" value="<%= answer.text %>" required>
+                    </div>
+                    <% if(count > 0) { %>
+                    <a type="button" class="btn btn-danger" onclick="removeAnswer('<%= answerGroupId %>');"><i
+                            class="fas fa-times"></i></a>
+                    <% } %>
+
+                </div>
+
+
+            </div>
+            <% } %>
+        </fieldset>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-check-square-o"></i> Submit</button>
+        <a href="/survey" class="btn btn-warning"><i class="fa fa-undo"></i> Cancel</a>
+    </form>
+    
+</main>
+
+<script>
+    //Please ignore any red underlines here, they lie
+    let numOfAnswers = <%- survey.answerlist.length %>;
+
+    let addAnswer = () => 
+    {
+        //Create the html elements to construct a new answer group
+
+        let newAnswerGroup = document.createElement('div');
+        newAnswerGroup.id = "answerGroup" + numOfAnswers;
+        newAnswerGroup.className = "form-group";
+
+        let newAnswerRow = document.createElement('div');
+        newAnswerRow.className = "row";
+
+        let answerTextCol = document.createElement('div');
+        answerTextCol.className = "col";
+
+        let answerTypeCol = document.createElement('div');
+        answerTypeCol.className = "col";
+
+        //Create Labels for inputs
+        let answerTextLabel = document.createElement('label');
+        answerTextLabel.htmlFor = "answerText" + numOfAnswers;
+        answerTextLabel.textContent = "Answer Text";
+
+        let answerTypeLabel = document.createElement('label');
+        answerTypeLabel.htmlFor = "answerType" + numOfAnswers;
+        answerTypeLabel.textContent = "Answer Type";
+
+        answerTextCol.appendChild(answerTextLabel);
+        answerTypeCol.appendChild(answerTypeLabel);
+        
+        //Create answerText Element for holding the answer text
+        let answerText = document.createElement('input');
+        answerText.type = "text";
+        answerText.id = "answerText" + numOfAnswers;
+        answerText.name = "answerText";
+        answerText.value = "New Answer";
+        answerText.className = "form-control";
+
+        answerTextCol.appendChild(answerText);
+
+        //Create answerType Selection Box to store answer type
+        let answerType = document.createElement('select');
+        answerType.id = "answerType" + numOfAnswers;
+        answerType.name = "answerType";
+        answerType.className = "form-control";
+
+        //Create the options and fill the selection box
+        let optionLabels = ["Text","Number","Time","Date"]
+        let options = ["text","number","time","date","select","checkbox"]
+
+        for(let i = 0; i < options.length; i++){
+            let option = document.createElement('option');
+            option.value = options[i];
+            option.textContent = optionLabels[i];
+
+            answerType.appendChild(option);
+        }
+        
+        //Create a button to remove input elements
+        let removeButton = document.createElement('a');
+        removeButton.onclick = () => {
+            removeAnswer(newAnswerGroup.id);
+        };
+        removeButton.type = "button";
+        removeButton.classList.add("btn");
+        removeButton.classList.add("btn-danger")
+        removeButton.innerHTML = "<i class='fas fa-times'></i>";
+
+        answerTypeCol.appendChild(answerType);
+        
+        newAnswerRow.appendChild(answerTextCol);
+
+        newAnswerRow.appendChild(answerTypeCol);
+
+        newAnswerRow.appendChild(removeButton);
+
+        newAnswerGroup.appendChild(newAnswerRow);
+
+        let mainFieldset  = document.getElementById("mainFieldset");
+
+        mainFieldset.appendChild(newAnswerGroup);
+
+        numOfAnswers += 1;
+    }
+
+    let removeAnswer = (answerGroupId) => {
+        let answerGroup = document.getElementById(answerGroupId);
+
+        if(answerGroup){
+            answerGroup.parentNode.removeChild(answerGroup);
+            numOfAnswers -= 1;
+        }
+    }
+</script>
+
+<% include ../partials/bottom_nav.ejs %>
+<% include ../partials/footer.ejs %>
