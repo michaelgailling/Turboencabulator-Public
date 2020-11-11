@@ -168,10 +168,12 @@
 
             questionType.appendChild(option);
         }
-
+        
         //Create a button to remove input elements
         let removeButton = document.createElement('a');
-        removeButton.onclick = "removeQuestion(" + newQuestionGroup.id + ")";
+        removeButton.onclick = () => {
+            removeQuestion(newQuestionGroup.id);
+        };
         removeButton.type = "button";
         removeButton.classList.add("btn");
         removeButton.classList.add("btn-danger")
