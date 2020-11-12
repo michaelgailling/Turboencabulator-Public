@@ -35,4 +35,10 @@ router.get('/respond/:id', surveyController.displaySurvey);
 /* POST Route for submitting a Survey response in db - UPDATE */
 router.post('/respond/:id', surveyController.createResponse);
 
+/* GET responses based on survey id */
+router.get('/responses/:id', surveyController.dispaySurveyResponses);
+
+/* GET answers based on response id */
+router.get('/answers/:id', surveyController.dispaySurveyAnswers);
+
 module.exports = router;

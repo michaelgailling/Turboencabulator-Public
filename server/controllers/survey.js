@@ -18,6 +18,7 @@ let Question = require('../models/question');
 
 let Response = require('../models/response');
 let Answer = require('../models/answer');
+const survey = require('../models/survey');
 
 module.exports.displaySurveyList = (req,res,next) => 
 {
@@ -203,7 +204,6 @@ module.exports.displaySurvey = (req,res,next) => {
         }
         else
         {
-            //questons is sent as its own list
             res.render('survey/respondsurvey', {title : "Respond to survey", survey : currentsurvey});
         }
     });
@@ -248,17 +248,23 @@ module.exports.createResponse = (req,res,next) => {
 
 module.exports.dispaySurveyResponses = (req,res,next) => {
     let id = req.params.id;
-
-    Response.find({surveyid:id},(err, responses)=> {
+    
+    Survey.findById(id, (err, currentsurvey) => {
         if(err)
         {
             console.error(err);
             res.end(err);
         }
-        else
-        {
-            res.redirect('survey/responselist', {responses : responses});
-        }
+        
+        Response.find({surveyid:id},(err, responses)=> {
+            if(err)
+            {
+                console.error(err);
+                res.end(err);
+            }
+
+            res.render('survey/responselist', {title:"Response List", responses : responses, survey : currentsurvey});
+        });
     });
 }
 
@@ -271,9 +277,14 @@ module.exports.dispaySurveyAnswers = (req,res,next) => {
             console.error(err);
             res.end(err);
         }
-        else
-        {
-            res.render('survey/responsedetails', {title : "Survey Answers", response : currentresponse});
-        }
+        Survey.findById(currentresponse.surveyid, (err, currentsurvey) => {
+            if(err)
+            {
+                console.error(err);
+                res.end(err);
+            }
+            res.render('survey/responsedetails', {title : "Survey Answers", response : currentresponse, survey : currentsurvey});
+    
+        });
     });
 }

@@ -3,9 +3,30 @@
 
 <main class="container">
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <p>Welcome to <%= title %> for <%= survey.title %></p>
     <br>
-    
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                Response Link
+            </th>
+            <th>
+                Response id
+            </th>
+        </tr>
+        <% for(let count = 0; count <  responses.length; count++) { %>
+          <tr>
+                <td>
+                    <a href="/survey/answers/<%= responses[count]._id %>">
+                        Click to see answers
+                    </a>
+                </td>
+                <td>
+                    <%= responses[count]._id %>
+                </td>
+          </tr>
+      <% } %>
+    </table>
     
 </main>
 
