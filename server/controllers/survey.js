@@ -193,7 +193,7 @@ module.exports.deleteSurvey = (req,res,next) => {
 
 }
 
-module.exports.displayCreateResponse = (req,res,next) => {
+module.exports.displaySurvey = (req,res,next) => {
     let id = req.params.id;
     //Find the survey based on record id
     Survey.findById(id, (err, currentsurvey) => {
@@ -275,7 +275,7 @@ module.exports.dispaySurveyAnswers = (req,res,next) => {
         }
         else
         {
-            res.render('survey/answerlist', {title : "Survey Answers", response : currentresponse});
+            res.render('survey/responsedetails', {title : "Survey Answers", response : currentresponse});
         }
     });
 }

@@ -29,10 +29,10 @@ router.post('/edit/:id', surveyController.editSurvey);
 /* GET Route for performing a Survey delete - DELETE */
 router.get('/delete/:id', surveyController.deleteSurvey);
 
-/* GET create survey response page - CREATE */
-router.get('/respond/:id', surveyController.displayCreateResponse);
+/* GET create survey respond page - CREATE */
+router.get('/respond/:id', surveyController.displaySurvey);
 
-/* POST Route for submitting a Survey in db - UPDATE */
+/* POST Route for submitting a Survey response in db - UPDATE */
 router.post('/respond/:id', surveyController.createResponse);
 
 module.exports = router;
