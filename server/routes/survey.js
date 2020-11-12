@@ -23,10 +23,16 @@ router.post('/create', surveyController.createSurvey);
 /* GET edit survey page - UPDATE */
 router.get('/edit/:id', surveyController.displayEditSurvey);
 
-/* POST Route for editing a Surrvey in db - UPDATE */
+/* POST Route for editing a Survey in db - UPDATE */
 router.post('/edit/:id', surveyController.editSurvey);
 
 /* GET Route for performing a Survey delete - DELETE */
 router.get('/delete/:id', surveyController.deleteSurvey);
+
+/* GET create survey response page - CREATE */
+router.get('/respond/:id', surveyController.displayCreateResponse);
+
+/* POST Route for submitting a Survey in db - UPDATE */
+router.post('/respond/:id', surveyController.createResponse);
 
 module.exports = router;

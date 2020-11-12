@@ -21,7 +21,7 @@
       <% for(let count = 0; count <  surveys.length; count++) { %>
         <tr>
             <td>
-                <a href="">
+                <a href="/survey/respond/<%= surveys[count]._id %>">
                     <%= surveys[count].title %>
                 </a>
             </td>

@@ -11,21 +11,30 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let Model = mongoose.model;
 
-let answerSchema = Schema
+let Answer = require("./answer");
+
+let responseSchema = Schema
 (
     {
-        questiontext:
+        surveyid:
         {
             type: String,
             required: true
         },
-        answertext:
+        surveytitle:
         {
             type: String,
             required: true
+        },
+        answers:
+        {
+            type: [String]
         }
+    },
+    {
+        collection : 'responses'
     }
 )
 
-module.exports = Model('Answer', answerSchema);
+module.exports = Model('Response', responseSchema);
 
