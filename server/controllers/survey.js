@@ -190,7 +190,6 @@ module.exports.deleteSurvey = (req,res,next) => {
             res.redirect('/survey');
         }
     });
-
 }
 
 module.exports.displaySurvey = (req,res,next) => {
@@ -210,7 +209,6 @@ module.exports.displaySurvey = (req,res,next) => {
     });
 }
 
-//////Change this one
 module.exports.createResponse = (req,res,next) => {
     let id = req.params.id;
 
