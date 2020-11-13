@@ -16,6 +16,10 @@ let mongoose = require('mongoose');
 let Survey = require('../models/survey');
 let Question = require('../models/question');
 
+let Response = require('../models/response');
+let Answer = require('../models/answer');
+const survey = require('../models/survey');
+
 module.exports.displaySurveyList = (req,res,next) => 
 {
     //Find and list all the surveys
@@ -64,22 +68,33 @@ module.exports.createSurvey = (req,res,next) => {
         questionlist:[]
     });
 
-    let questionTextArray = data.questionText;
-    let questionTypeArray = data.questionType;
+    let questionText = data.questionText;
+    let questionType = data.questionType;
 
-    for(let i = 0; i < questionTextArray.length; i++){
+    if(typeof questionText === "string")
+    {
         let question = new Question({
-            text:questionTextArray[i],
-            type:questionTypeArray[i],
+            text:questionText,
+            type:questionType,
             options:[]
         });
 
         newSurvey.questionlist.push(question);
     }
+    else
+    {
+        for(let i = 0; i < questionText.length; i++){
+            let question = new Question({
+                text:questionText[i],
+                type:questionType[i],
+                options:[]
+            });
+    
+            newSurvey.questionlist.push(question);
+        }
+    }
 
-    console.log(newSurvey);
-
-    Survey.create(newSurvey, (err, Contact) => {
+    Survey.create(newSurvey, (err) => {
         if(err)
         {
             console.error(err);
@@ -105,8 +120,7 @@ module.exports.displayEditSurvey = (req,res,next) =>
       else
       {
           //questons is sent as its own list
-          let questions = currentsurvey.questionlist;
-          res.render('survey/details', {title : "Edit Survey", survey : currentsurvey, questions : questions});
+          res.render('survey/details', {title : "Edit Survey", survey : currentsurvey});
       }
   });
 }
@@ -122,17 +136,30 @@ module.exports.editSurvey = (req,res,next) => {
         questionlist:[]
     });
 
-    let questionTextArray = data.questionText;
-    let questionTypeArray = data.questionType;
+    let questionText = data.questionText;
+    let questionType = data.questionType;
 
-    for(let i = 0; i < questionTextArray.length; i++){
+    if(typeof questionText === "string")
+    {
         let question = new Question({
-            text:questionTextArray[i],
-            type:questionTypeArray[i],
+            text:questionText,
+            type:questionType,
             options:[]
         });
 
         updatedSurvey.questionlist.push(question);
+    }
+    else
+    {
+        for(let i = 0; i < questionText.length; i++){
+            let question = new Question({
+                text:questionText[i],
+                type:questionType[i],
+                options:[]
+            });
+    
+            updatedSurvey.questionlist.push(question);
+        }
     }
 
     Survey.updateOne({_id:id}, updatedSurvey, (err) => {
@@ -164,5 +191,100 @@ module.exports.deleteSurvey = (req,res,next) => {
             res.redirect('/survey');
         }
     });
+}
 
+module.exports.displaySurvey = (req,res,next) => {
+    let id = req.params.id;
+    //Find the survey based on record id
+    Survey.findById(id, (err, currentsurvey) => {
+        if(err)
+        {
+            console.error(err);
+            res.end(err);
+        }
+        else
+        {
+            res.render('survey/respondsurvey', {title : "Respond to survey", survey : currentsurvey});
+        }
+    });
+}
+
+module.exports.createResponse = (req,res,next) => {
+    let id = req.params.id;
+
+    let data = req.body;
+
+    let newRespsonse = new Response({
+        surveyid : id,
+        surveytitle : data.surveyTitle,
+        answers:[]
+    });
+
+    let answerText = data.answerText;
+
+    if(typeof answerText === "string")
+    {
+        newRespsonse.answers.push(answerText);
+    }
+    else
+    {
+        for(let i = 0; i < answerText.length; i++){
+            newRespsonse.answers.push(answerText[i]);
+        }
+    }
+
+    Response.create(newRespsonse, (err) => {
+        if(err)
+        {
+            console.error(err);
+            res.end(err);
+        }
+        else
+        {
+            res.redirect('/survey');
+        }
+    });
+}
+
+module.exports.dispaySurveyResponses = (req,res,next) => {
+    let id = req.params.id;
+    
+    Survey.findById(id, (err, currentsurvey) => {
+        if(err)
+        {
+            console.error(err);
+            res.end(err);
+        }
+        
+        Response.find({surveyid:id},(err, responses)=> {
+            if(err)
+            {
+                console.error(err);
+                res.end(err);
+            }
+
+            res.render('survey/responselist', {title:"Response List", responses : responses, survey : currentsurvey});
+        });
+    });
+}
+
+module.exports.dispaySurveyAnswers = (req,res,next) => {
+    let id = req.params.id;
+
+    Response.findById(id, (err, currentresponse) => {
+        if(err)
+        {
+            console.error(err);
+            res.end(err);
+        }
+        Survey.findById(currentresponse.surveyid, (err, currentsurvey) => {
+            if(err)
+            {
+                console.error(err);
+                res.end(err);
+            }
+            res.render('survey/responsedetails', {title : "Survey Answers", response : currentresponse, survey : currentsurvey});
+    
+        });
+    });
 }

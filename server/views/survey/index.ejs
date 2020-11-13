@@ -12,6 +12,9 @@
               Survey Title
           </th>
           <th>
+              Reponses
+          </th>
+          <th>
               Edit
           </th>
           <th>
@@ -21,9 +24,10 @@
       <% for(let count = 0; count <  surveys.length; count++) { %>
         <tr>
             <td>
-                <a href="">
-                    <%= surveys[count].title %>
-                </a>
+                <a href="/survey/respond/<%= surveys[count]._id %>"> <%= surveys[count].title %> </a>
+            </td>
+            <td>
+                <a href="/survey/responses/<%= surveys[count]._id %>" > View Reponses </a>
             </td>
             <td>
                 <a href="survey/edit/<%= surveys[count]._id %>" class="btn btn-warning btn-sm">Edit Survey</a>

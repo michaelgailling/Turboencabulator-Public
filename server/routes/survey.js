@@ -5,7 +5,7 @@
  * Section: 3
  * File: ./routes/survey.js
 \*/
-
+ 
 var express = require('express');
 var router = express.Router();
 
@@ -23,10 +23,22 @@ router.post('/create', surveyController.createSurvey);
 /* GET edit survey page - UPDATE */
 router.get('/edit/:id', surveyController.displayEditSurvey);
 
-/* POST Route for editing a Contact in db - UPDATE */
+/* POST Route for editing a Survey in db - UPDATE */
 router.post('/edit/:id', surveyController.editSurvey);
 
 /* GET Route for performing a Survey delete - DELETE */
 router.get('/delete/:id', surveyController.deleteSurvey);
+
+/* GET create survey respond page - CREATE */
+router.get('/respond/:id', surveyController.displaySurvey);
+
+/* POST Route for submitting a Survey response in db - UPDATE */
+router.post('/respond/:id', surveyController.createResponse);
+
+/* GET responses based on survey id */
+router.get('/responses/:id', surveyController.dispaySurveyResponses);
+
+/* GET answers based on response id */
+router.get('/answers/:id', surveyController.dispaySurveyAnswers);
 
 module.exports = router;

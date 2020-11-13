@@ -10,8 +10,10 @@ var express = require('express');
 var router = express.Router();
 
 let indexController = require("../controllers/index");
+let surveyController = require("../controllers/survey");
+
 
 /* GET home page. */
-router.get('/', indexController.displayHomePage);
+router.get('/', surveyController.displaySurveyList);
 
 module.exports = router;

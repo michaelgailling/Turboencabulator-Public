@@ -1,0 +1,34 @@
+<% include ../partials/header.ejs %>
+<% include ../partials/main_nav.ejs %>
+
+<main class="container">
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %> for <%= survey.title %></p>
+    <br>
+    <% for(let count = 0; count < survey.questionlist.length; count++) { %>
+
+        <% let question = survey.questionlist[count] %>
+        <% let answer = response.answers[count] %>
+
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <b><%= question.text %></b>
+                </div>
+                <div class="row">
+                    <% if(answer.length > 0) { %>
+                        <i><%= answer %></i>
+                    <% } else { %>
+                        <i>No answer provided</i>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        
+    <% } %>
+    
+</main>
+
+<% include ../partials/bottom_nav.ejs %>
+<% include ../partials/footer.ejs %>
