@@ -1,11 +1,15 @@
 <% include ../partials/header.ejs %>
 <% include ../partials/main_nav.ejs %>
 
-<main class="container">
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <br>
-    <a type="button" class="btn btn-primary" onclick="addQuestion();">Add Question <i class="fas fa-plus"></i></a>
+<main class="container min-vh-100 p-5">
+    <div class="col justify-content-center text-center pb-3">
+        <h1><%= title %></h1>
+        <br>
+        <p>Welcome to <%= title %></p>
+    </div>
+    <div class="row justify-content-center pb-1">
+        <a type="button" class="btn btn-primary" onclick="addQuestion();">Add Question <i class="fas fa-plus"></i></a>
+    </div>
     <form class="form" method="post" id="surveyForm">
         <fieldset id="mainFieldset">
             <div class="form-group">
