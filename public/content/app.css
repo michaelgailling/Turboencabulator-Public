@@ -1,11 +1,137 @@
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /* padding: 50px; */
+  background-color: #FEF3E6;
+}
+
+table { 
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  border: 1px solid #E0D5C7;
+  border-collapse: separate;
+  border-radius: 8px;
+  border-spacing: 0px;
+  table-layout: fixed;
+  max-width: 700px;
+}
+.col1 {
+  width: 85px;
+}
+.col2 {
+  width: 35px;
+}
+.col3 {
+  width: 35px;
+}
+thead {
+  display: table-header-group;
+  vertical-align: middle;
+  border-color: inherit;
+  border-collapse: separate;
+}
+tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+th, td {
+  padding: 5px 4px 6px 4px; 
+  text-align: center;
+  padding: 10px;
+}
+th {
+  font-size: 1.5rem;
+}
+td {
+  border-bottom: 1px solid #E0D5C7;   
+  padding-left: 0px;
+  padding-right: 0px;
+}
+td, td a {
+  font-size: 1rem;
+  font-weight: 500;
+}
+tr:nth-child(even) {
+  background-color: #FEEDD9;
+}
+th p {
+  margin: 0px;
+}
+table thead th {
+  padding: 0px;
+  height: 4rem;
 }
 
 a {
-  color: #00B7FF;
+  color: #3F382F;
+}
+a:hover {
+  color: #9B5908;
+  text-decoration: none;
 }
 
-a:hover{
-  text-decoration: none;
+h1, h2, h3, h4, h5, h6, p, table, a, button {
+  color: #24292E;
+  font-family: 'Roboto', sans-serif;
+}
+
+.btn-new {
+  background-color: #9B5908; 
+  border-color: #9B5908;
+  max-width: 700px; 
+  display: block; 
+  margin-left: auto; 
+  margin-right: auto;
+}
+.btn-new:hover {
+  background-color: #F59E31;
+  color: #24292e;
+}
+.btn-line {
+  width: 100%;
+}
+.btn-view {
+  background-color: #F59E31;
+  border-color: #F59E31;
+  color: #FEF3E6;
+}
+.btn-view:hover {
+  background-color: #9B5908;
+  border-color: #9B5908;
+  color: #FEF3E6;
+}
+.btn-edit {
+  color: #F59E31;
+}
+.btn-delete {
+  color: #ED6007;
+}
+.btn-sml {
+  font-size: 0.7rem; 
+}
+.div-flex {
+  margin-left: 0px; 
+  margin-right: 0px; 
+  display: flex;
+}
+.div-width-half {
+  width: 44%;
+}
+.div-margin-left {
+  margin-left: 2%
+}
+.div-btn-holder {
+  width: 10%; position: relative;
+}
+.btn-delete-question {
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: #ED6007;
+  font-size: 1.5rem;
+}
+.form-group-twiks {
+  margin-bottom: 10px;
 }

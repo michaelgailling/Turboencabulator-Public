@@ -1,12 +1,8 @@
 <% include ../partials/header.ejs %>
 <% include ../partials/main_nav.ejs %>
 
-<main class="container min-vh-100 p-5">
-    <div class="col justify-content-center text-center"> 
-        <h1><%= title %></h1>
-        <br>
-        <p>Welcome to <%= title %> for <b><%= survey.title %></b></p>
-    </div>
+<main class="container">
+    <h1><%= title %> for <%= survey.title %></h1>
     <br>
     <form class="form" method="post" id="surveyForm">
         <fieldset id="mainFieldset">
