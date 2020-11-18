@@ -14,6 +14,7 @@
                 <div class="form-group" id="<%= questionGroupId %>">
                     <div class="row">
                         <%= question.text %>
+                        <input hidden name="questionText" value="<%= question.text %>">
                     </div>
                     <div class="row">
                         <% if(question.type == "select") { %>
