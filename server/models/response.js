@@ -28,7 +28,8 @@ let responseSchema = Schema
         },
         answers:
         {
-            type: [String]
+            type: Array,
+            answer:Answer
         }
     },
     {
