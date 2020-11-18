@@ -226,7 +226,7 @@ module.exports.createResponse = (req,res,next) => {
     {
         let answer = new Answer({
             questiontext: questionText,
-            answerText: answerText
+            answertext: answerText
         })
         newRespsonse.answers.push(answer);
     }
@@ -272,7 +272,7 @@ module.exports.dispaySurveyResponses = (req,res,next) => {
                     console.error(err);
                     res.end(err);
                 }
-                
+
                 res.render('survey/responselist', {title:"Response List", responses : responses, surveytitle : survey.title});
             })
 
