@@ -2,15 +2,15 @@
 <% include ../partials/main_nav.ejs %>
 
 <main class="container">
-    <h1><%= title %> for <%= survey.title %></h1>
+    <h1><%= title %> for <%= response.surveytitle %></h1>
     <br>
-    <% for(let count = 0; count < survey.questionlist.length; count++) { %>
-    <% let question = survey.questionlist[count] %>
-    <% let answer = response.answers[count] %>
+    <% for(let count = 0; count < response.answers.length; count++) { %>
+    <% let question = response.answers[count].questiontext %>
+    <% let answer = response.answers[count].answertext %>
     <div class="row">
         <div class="col">
             <div class="row">
-                <b><%= question.text %></b>
+                <b><%= question %></b>
             </div>
             <div class="row">
                 <% if(answer.length > 0) { %>

@@ -28,8 +28,7 @@ module.exports.displaySurveyList = (req,res,next) =>
           return console.error(err);
         }
         else {
-            console.log(surveys[0].title);
-            console.log(surveys[0].questionlist);
+            
             res.render('survey/index', { 
                 title: 'Survey List', 
                 surveys: surveys
@@ -221,15 +220,26 @@ module.exports.createResponse = (req,res,next) => {
     });
 
     let answerText = data.answerText;
+    let questionText = data.questionText;
 
     if(typeof answerText === "string")
     {
-        newRespsonse.answers.push(answerText);
+        let answer = new Answer({
+            questiontext: questionText,
+            answerText: answerText
+        })
+        newRespsonse.answers.push(answer);
     }
     else
     {
+        
         for(let i = 0; i < answerText.length; i++){
-            newRespsonse.answers.push(answerText[i]);
+            let answer = new Answer({
+                questiontext: questionText[i],
+                answertext: answerText[i]
+            })
+
+            newRespsonse.answers.push(answer);
         }
     }
 
@@ -249,12 +259,6 @@ module.exports.createResponse = (req,res,next) => {
 module.exports.dispaySurveyResponses = (req,res,next) => {
     let id = req.params.id;
     
-    Survey.findById(id, (err, currentsurvey) => {
-        if(err)
-        {
-            console.error(err);
-            res.end(err);
-        }
         
         Response.find({surveyid:id},(err, responses)=> {
             if(err)
@@ -262,10 +266,18 @@ module.exports.dispaySurveyResponses = (req,res,next) => {
                 console.error(err);
                 res.end(err);
             }
+            Survey.findById({_id:id}, (err, survey) => {
+                if(err)
+                {
+                    console.error(err);
+                    res.end(err);
+                }
+                
+                res.render('survey/responselist', {title:"Response List", responses : responses, surveytitle : survey.title});
+            })
 
-            res.render('survey/responselist', {title:"Response List", responses : responses, survey : currentsurvey});
+            
         });
-    });
 }
 
 module.exports.dispaySurveyAnswers = (req,res,next) => {
@@ -277,14 +289,6 @@ module.exports.dispaySurveyAnswers = (req,res,next) => {
             console.error(err);
             res.end(err);
         }
-        Survey.findById(currentresponse.surveyid, (err, currentsurvey) => {
-            if(err)
-            {
-                console.error(err);
-                res.end(err);
-            }
-            res.render('survey/responsedetails', {title : "Survey Answers", response : currentresponse, survey : currentsurvey});
-    
-        });
+            res.render('survey/responsedetails', {title : "Survey Answers", response : currentresponse});
     });
 }
