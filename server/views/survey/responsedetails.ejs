@@ -4,39 +4,29 @@
 <main class="container">
     <h1><%= title %> for <%= survey.title %></h1>
     <br>
-    <form class="form" method="post" id="surveyForm">
-        <fieldset id="mainFieldset">
-            <input name="surveyTitle" value="<%= survey.title %> " hidden/>
-            <% for(let count = 0; count < survey.questionlist.length; count++) { %>
-                <% let question = survey.questionlist[count] %>
-                <% let questionGroupId = "questionGroup" + count %>
-                
-                <div class="form-group" id="<%= questionGroupId %>">
-                    <div class="row">
-                        <%= question.text %>
-                    </div>
-                    <div class="row">
-                        <% if(question.type == "select") { %>
-                            <select id="answerinput<%= count %>" name="answerText" class="form-control" required>
-                                <!--nothing for this yet finish in another sprint-->
-                                <option value="default">Default</option>
-                            </select>
-                        <% } else { %>
-                            <input type="<%= question.type %>" id="answerinput<%= count %>" name="answerText" class="form-control" required/>
-                        <% } %>
-                    </div>
-                </div>
+    <% for(let count = 0; count < survey.questionlist.length; count++) { %>
+    <% let question = survey.questionlist[count] %>
+    <% let answer = response.answers[count] %>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <b><%= question.text %></b>
+            </div>
+            <div class="row">
+                <% if(answer.length > 0) { %>
+                <i><%= answer %></i>
+                <% } else { %>
+                <i>No answer provided</i>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <% } %>
 
-            <% } %>
-        </fieldset>
-        <button type="submit" class="btn btn-primary"><i class="fa fa-check-square-o"></i> Submit</button>
-        <a href="/survey" class="btn btn-warning"><i class="fa fa-undo"></i> Cancel</a>
-    </form>
-    
 </main>
 
 <script>
- 
+
 </script>
 
 <% include ../partials/bottom_nav.ejs %>
