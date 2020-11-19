@@ -1,20 +1,25 @@
 <% include ../partials/header.ejs %>
 <% include ../partials/main_nav.ejs %>
 
-<main class="container">
-    <h1><%= title %> for <%= response.surveytitle %></h1>
+<main class="container min-vh-100 p-5">
+    <div class="col-md-12 col-sm-10 justify-content-center pb-5">
+        <div class="row text-center justify-content-center h1"><%= title %> for</div>
+        <div class="row text-center justify-content-center survey-title h1"><%= response.surveytitle %></div>   
+    </div>
     <br>
+
+    <!-- not sure how to display this page to look professional yet, will come back to it -->
     <% for(let count = 0; count < response.answers.length; count++) { %>
     <% let question = response.answers[count].questiontext %>
     <% let answer = response.answers[count].answertext %>
-    <div class="row">
-        <div class="col">
+    <div class="row justify-content-center text-center pb-1">
+        <div class="col-md-8 col-sm-10">
             <div class="row">
-                <b><%= question %></b>
+                <h4><%= count+1 %>.&emsp;<%= question %></h4>
             </div>
             <div class="row">
                 <% if(answer.length > 0) { %>
-                <i><%= answer %></i>
+                <p class="answerText"><%= answer %></p>
                 <% } else { %>
                 <i>No answer provided</i>
                 <% } %>

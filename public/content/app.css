@@ -1,6 +1,7 @@
 body {
   /* padding: 50px; */
   background-color: #FEF3E6;
+  font-family: 'Teko', sans-serif;
 }
 
 table { 
@@ -72,7 +73,7 @@ a:hover {
 
 h1, h2, h3, h4, h5, h6, p, table, a, button {
   color: #24292E;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Teko', sans-serif;
 }
 
 .btn-new {
@@ -107,7 +108,7 @@ h1, h2, h3, h4, h5, h6, p, table, a, button {
   color: #ED6007;
 }
 .btn-sml {
-  font-size: 0.7rem; 
+  font-size: 0.85rem; 
 }
 .div-flex {
   margin-left: 0px; 
@@ -134,4 +135,16 @@ h1, h2, h3, h4, h5, h6, p, table, a, button {
 }
 .form-group-twiks {
   margin-bottom: 10px;
+}
+
+.jumbotron{
+  background-color: #F4A33C;
+}
+
+.survey-title{
+  color: #F4A33C;
+}
+
+.navbar-brand{
+  font-family: 'Big Shoulders Stencil Text', sans-serif;
 }
