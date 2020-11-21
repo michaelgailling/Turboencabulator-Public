@@ -14,6 +14,6 @@ let surveyController = require("../controllers/survey");
 
 
 /* GET home page. */
-router.get('/', indexController.displayHomePage);
+router.get('/', surveyController.displayVisibleSuveys);
 
 module.exports = router;
