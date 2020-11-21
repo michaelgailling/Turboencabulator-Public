@@ -27,6 +27,11 @@ let surveySchema = Schema
         {
             type: Array,
             question:Question
+        },
+        visible:
+        {
+            type: Boolean,
+            default: true
         }
     },
     {

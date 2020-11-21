@@ -179,17 +179,27 @@ module.exports.editSurvey = (req,res,next) => {
 module.exports.deleteSurvey = (req,res,next) => {
     let id = req.params.id;
 
-    Survey.remove({_id:id}, (err)=>{
+    Response.deleteMany({surveyid:id}, (err) =>{
         if(err)
         {
             console.error(err);
             res.end(err);
         }
-        else
-        {
-            res.redirect('/survey');
-        }
+
+        Survey.remove({_id:id}, (err)=>{
+            if(err)
+            {
+                console.error(err);
+                res.end(err);
+            }
+            else
+            {
+                res.redirect('/survey');
+            }
+        });
+
     });
+
 }
 
 module.exports.displaySurvey = (req,res,next) => {
