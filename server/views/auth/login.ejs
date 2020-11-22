@@ -2,7 +2,7 @@
 <% include ../partials/main_nav.ejs %>
 
 
-<main class="container">
+<main class="container min-vh-100 p-5">
     <!-- Message Area -->
     <% if(message.length > 0) { %>
         <div class="alert alert-danger">
@@ -22,7 +22,7 @@
                 </fieldset>
 
                 <fieldset class="form-group">
-                    <label for="password">Username</label>
+                    <label for="password">Password</label>
                     <input type="password" class="form-control"
                     name="password" placeholder="Enter password" id="password" 
                     required autofocus>
