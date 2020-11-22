@@ -90,7 +90,26 @@
                                 Choose One
                             </option>
                             <% } %>
+                            
+                            <% if(question.type == "checkbox") { %>
+                            <option value="checkbox" selected>
+                                Choose Multiple
+                            </option>
+                            <% } else { %>
+                            <option value="checkbox">
+                                Choose Multiple
+                            </option>
+                            <% } %>
 
+                            <% if(question.type == "trueOrFalse") { %>
+                            <option value="trueOrFalse" selected>
+                                True or False
+                            </option>
+                            <% } else { %>
+                            <option value="trueOrFalse">
+                                True or False
+                            </option>
+                            <% } %>
                         </select>
                     </div>
                     <% if(count > 0) { %>
