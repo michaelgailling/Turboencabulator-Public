@@ -19,14 +19,14 @@ let User = mongoose.Schema
             trim: true,
             required: 'email address is required'
         },
-        displayNmae:
+        displayName:
         {
             type: String,
             default: '',
             trim: true,
             required: 'Display Name is required'
         },
-        displayNmae:
+        created:
         {
             type: Date,
             default: Date.now
