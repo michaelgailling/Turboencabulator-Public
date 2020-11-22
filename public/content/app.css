@@ -1,6 +1,8 @@
 body {
   /* padding: 50px; */
   background-color: #FEF3E6;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin-bottom: 80px;  
 }
 
 table { 
