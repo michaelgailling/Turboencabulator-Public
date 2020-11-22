@@ -18,7 +18,6 @@ let Question = require('../models/question');
 
 let Response = require('../models/response');
 let Answer = require('../models/answer');
-const survey = require('../models/survey');
 
 module.exports.displaySurveyList = (req,res,next) => 
 {
@@ -179,17 +178,27 @@ module.exports.editSurvey = (req,res,next) => {
 module.exports.deleteSurvey = (req,res,next) => {
     let id = req.params.id;
 
-    Survey.remove({_id:id}, (err)=>{
+    Response.deleteMany({surveyid:id}, (err) =>{
         if(err)
         {
             console.error(err);
             res.end(err);
         }
-        else
-        {
-            res.redirect('/survey');
-        }
+
+        Survey.remove({_id:id}, (err)=>{
+            if(err)
+            {
+                console.error(err);
+                res.end(err);
+            }
+            else
+            {
+                res.redirect('/survey');
+            }
+        });
+
     });
+
 }
 
 module.exports.displaySurvey = (req,res,next) => {
@@ -289,6 +298,50 @@ module.exports.dispaySurveyAnswers = (req,res,next) => {
             console.error(err);
             res.end(err);
         }
-            res.render('survey/responsedetails', {title : "Survey Answers", response : currentresponse});
+        res.render('survey/responsedetails', {title : "Survey Answers", response : currentresponse});
+    });
+}
+
+module.exports.toggleVisibility = (req,res,next) => {
+    let id = req.params.id;
+
+    Survey.findById(id, (err, currentsurvey) => {
+        if(err)
+        {
+            console.error(err);
+            res.end(err);
+        }
+
+        if(currentsurvey.visible)
+        {
+            currentsurvey.visible = false;
+        }
+        else
+        {
+            currentsurvey.visible = true;
+        }
+
+        Survey.updateOne({_id:id}, currentsurvey, (err) => {
+            if(err)
+            {
+                console.error(err);
+                res.end(err);
+            }
+
+            res.redirect("/survey");
+        });
+    });
+
+    
+}
+
+module.exports.displayVisibleSuveys = (req,res,next) => {
+    Survey.find({visible:true}, (err, surveys) => {
+        if(err)
+        {
+            console.error(err);
+            res.end(err);
+        }
+        res.render('home/index', {title : "Available Surveys", surveys : surveys});
     });
 }
