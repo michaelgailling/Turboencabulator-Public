@@ -15,9 +15,16 @@
                 <a href="/survey/responses/<%= surveys[count]._id %>" class="btn btn-view btn-sml">Reponses</a>
             </td>
             <td class="col2">
-                <a href="survey/edit/<%= surveys[count]._id %>" class="btn-edit"><i class="fas fa-pen"></i></a>
+                <% if(surveys[count].visible) { %>
+                    <a href="/survey/toggle/<%= surveys[count]._id %>" class="btn btn-sml btn-success">Visible</a>
+                <% } else { %>
+                    <a href="/survey/toggle/<%= surveys[count]._id %>" class="btn btn-sml btn-danger">Hidden</a>
+                <% } %>
             </td>
             <td class="col3">
+                <a href="survey/edit/<%= surveys[count]._id %>" class="btn-edit"><i class="fas fa-pen"></i></a>
+            </td>
+            <td class="col4">
                 <a href="survey/delete/<%= surveys[count]._id %>" class="btn-delete" id="deleteContact"><i class="fas fa-trash-alt"></i></a>
             </td>
         </tr>
