@@ -1,6 +1,8 @@
 body {
   /* padding: 50px; */
   background-color: #FEF3E6;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin-bottom: 80px;  
 }
 
 table { 
@@ -18,9 +20,12 @@ table {
   width: 85px;
 }
 .col2 {
-  width: 35px;
+  width: 85px;
 }
 .col3 {
+  width: 35px;
+}
+.col4 {
   width: 35px;
 }
 thead {

@@ -41,4 +41,7 @@ router.get('/responses/:id', surveyController.dispaySurveyResponses);
 /* GET answers based on response id */
 router.get('/answers/:id', surveyController.dispaySurveyAnswers);
 
+/* POST toggle visibility */
+router.get('/toggle/:id', surveyController.toggleVisibility);
+
 module.exports = router;

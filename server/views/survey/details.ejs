@@ -30,23 +30,34 @@
                     <div class="div-width-half div-margin-left">
                         <label for="questionType<%= count %>">Question Type</label>
                         <select id="questionType<%= count %>" name="questionType" class="form-control">
+
                             <% if(question.type == "text") { %>
                             <option value="text" selected>
-                                Text
+                                Short Answer(Text)
                             </option>
                             <% } else { %>
                             <option value="text">
-                                Text
+                                Short Answer(Text)
                             </option>
                             <% } %>
 
                             <% if(question.type == "number") { %>
-                            <option value="text" selected>
-                                Number
+                            <option value="number" selected>
+                                Short Answer(Number)
                             </option>
                             <% } else { %>
                             <option value="number">
-                                Number
+                                Short Answer(Number)
+                            </option>
+                            <% } %>
+
+                            <% if(question.type == "textarea") { %>
+                            <option value="textarea" selected>
+                                Long Answer
+                            </option>
+                            <% } else { %>
+                            <option value="textarea">
+                                Long Answer
                             </option>
                             <% } %>
 
@@ -79,7 +90,7 @@
                                 Choose One
                             </option>
                             <% } %>
-
+                            
                             <% if(question.type == "checkbox") { %>
                             <option value="checkbox" selected>
                                 Choose Multiple
@@ -172,12 +183,12 @@
         //Create questionType Selection Box to store queston type
         let questionType = document.createElement('select');
         questionType.id = "questionType" + numOfQuestions;
-        questionType.name = "quesitonType";
+        questionType.name = "questionType";
         questionType.className = "form-control";
 
         //Create the options and fill the selection box
-        let optionLabels = ["Text","Number","Time","Date","Choose One"]
-        let options = ["text","number","time","date","select"]
+        let optionLabels = ["Short Answer(Text)","Short Answer(Number)","Long Answer","Time","Date","Choose One"]
+        let options = ["text","number","textarea","time","date","select"]
 
         for(let i = 0; i < options.length; i++){
             let option = document.createElement('option');
