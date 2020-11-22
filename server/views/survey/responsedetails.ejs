@@ -1,35 +1,33 @@
 <% include ../partials/header.ejs %>
 <% include ../partials/main_nav.ejs %>
 
-<main class="container min-vh-100 p-5">
-    <div class="col justify-content-center text-center"> 
-        <h1><%= title %></h1>
-        <p>Welcome to <%= title %> for <%= survey.title %></p>
-    </div>
+<main class="container">
+    <h1><%= title %> for <%= response.surveytitle %></h1>
     <br>
-    <% for(let count = 0; count < survey.questionlist.length; count++) { %>
-
-        <% let question = survey.questionlist[count] %>
-        <% let answer = response.answers[count] %>
-
-        <div class="row">
-            <div class="col">
-                <div class="row">
-                    <b><%= question.text %></b>
-                </div>
-                <div class="row">
-                    <% if(answer.length > 0) { %>
-                        <i><%= answer %></i>
-                    <% } else { %>
-                        <i>No answer provided</i>
-                    <% } %>
-                </div>
+    <% for(let count = 0; count < response.answers.length; count++) { %>
+    <% let question = response.answers[count].questiontext %>
+    <% let answer = response.answers[count].answertext %>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <b><%= question %></b>
+            </div>
+            <div class="row">
+                <% if(answer.length > 0) { %>
+                <i><%= answer %></i>
+                <% } else { %>
+                <i>No answer provided</i>
+                <% } %>
             </div>
         </div>
-
+    </div>
     <% } %>
-    
+
 </main>
+
+<script>
+
+</script>
 
 <% include ../partials/bottom_nav.ejs %>
 <% include ../partials/footer.ejs %>
