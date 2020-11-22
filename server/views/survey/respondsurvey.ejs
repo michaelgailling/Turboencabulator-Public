@@ -23,9 +23,9 @@
                                 <option value="default">Default</option>
                             </select>
                         <% } else if(question.type == "trueOrFalse") { %>  
-                            <input type="radio" id="answerinput<%= count %>" name="answerText" value="true">
+                            <input type="radio" id="answerinput<%= count %>" name="answerText<%= count %>" value="true">
                             <label for="answerinput<%= count %>">True</label><br>
-                            <input type="radio" id="answerinput<%= count %>" name="answerText" value="false">
+                            <input type="radio" id="answerinput<%= count %>" name="answerText<%= count %>" value="false">
                             <label for="answerinput<%= count %>">False</label><br>  
                         <% } else { %>
                             <input type="<%= question.type %>" id="answerinput<%= count %>" name="answerText" class="form-control" required/>
