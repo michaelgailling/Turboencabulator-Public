@@ -13,7 +13,7 @@
                 <b><%= question %></b>
             </div>
             <div class="row">
-                <% if(answer.length > 0) { %>
+                <% if(typeof answer === "undefined" || answer.length > 0) { %>
                 <i><%= answer %></i>
                 <% } else { %>
                 <i>No answer provided</i>
