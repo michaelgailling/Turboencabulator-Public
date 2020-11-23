@@ -204,28 +204,17 @@ module.exports.createResponse = (req,res,next) => {
         answers:[]
     });
 
-    let answerText = data.answerText;
-    let questionText = data.questionText;
+    let answers = data.response
 
-    if(typeof answerText === "string")
-    {
-        let answer = new Answer({
-            questiontext: questionText,
-            answertext: answerText
-        })
-        newRespsonse.answers.push(answer);
-    }
-    else
-    {
+    for(let i = 0; i < answers.length; i++){
+
         
-        for(let i = 0; i < answerText.length; i++){
-            let answer = new Answer({
-                questiontext: questionText[i],
-                answertext: answerText[i]
-            })
+        let answer = new Answer({
+                    questiontext: answers[i].question,
+                    answertext: answers[i].answer
+        });
 
-            newRespsonse.answers.push(answer);
-        }
+        newRespsonse.answers.push(answer);
     }
 
     Response.create(newRespsonse, (err) => {
