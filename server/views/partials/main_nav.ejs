@@ -1,38 +1,37 @@
-  <!--Main Nav-->
+<!--Main Nav-->
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/"><img src="/assets/images/TELogoThumb.png" alt="Turboencabulator Logo" height="30px" width="auto"> Turboencabulator</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <% if(title == "Home") { %>
-          <li class="nav-item active">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/"><img src="/assets/images/TELogoThumb.png" alt="Turboencabulator Logo" height="30px"
+      width="auto"> Turboencabulator</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <% if(title == "Home") { %>
+      <li class="nav-item active">
         <% } else { %>
-          <li class="nav-item">
+      <li class="nav-item">
         <% } %>
         <a class="nav-link" href="/">Home </a>
-        </li>
-        
-        <% if(title == "Survey List") { %>
-          <li class="nav-item active">
+      </li>
+      <% if (displayName != '') { %>
+      <% if(title == "Survey List") { %>
+      <li class="nav-item active">
         <% } else { %>
-          <li class="nav-item">
+      <li class="nav-item">
         <% } %>
         <a class="nav-link" href="/survey">Surveys</a>
-        </li>
-
-        <% if (displayName != '') { %>
-          <li class="navbar-text" style="color: #60B0F4;"><i class="fas fa-lg fa-user"></i> <%= displayName %></li>
-          <li class="nav-item"><a href="/logout" class="nav-link" style="color: #C82333;">
+      </li>
+      <li class="navbar-text" style="color: #60B0F4;"><i class="fas fa-lg fa-user"></i> <%= displayName %></li>
+      <li class="nav-item"><a href="/logout" class="nav-link" style="color: #C82333;">
           <i class="fas fa-lg fa-sign-out-alt"></i> Logout</a></li>
-        <% } else { %>
-        <li class="nav-item"><a href="/login" class="nav-link" style="color: #60B0F4;">
-        <i class="fas fa-lg fa-sign-in-alt"></i> Login</a></li>
-        <% } %>
+      <% } else { %>
+      <li class="nav-item"><a href="/login" class="nav-link" style="color: #60B0F4;">
+          <i class="fas fa-lg fa-sign-in-alt"></i> Login</a></li>
+      <% } %>
 
-    </div>
-  </nav>
-  
+  </div>
+</nav>

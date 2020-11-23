@@ -35,7 +35,7 @@ module.exports.displayLoginPage = (req, res, next) => {
           displayName: req.user ? req.user.displayName : ''
       });
   } else {
-      return res.redirect('/');
+      return res.redirect('/survey');
   }
 }
 
@@ -57,7 +57,7 @@ module.exports.processLoginPage = (req, res, next) => {
         if (err) {
             return next(err);
         }
-        return res.redirect('/');
+        return res.redirect('/survey');
       });
   })(req, res, next);
 }
@@ -70,7 +70,7 @@ module.exports.displayRegisterPage = (req, res, next) => {
           displayName: req.user ? req.user.displayName : ''
       });
   } else {
-      return res.redirect('/');
+      return res.redirect('/survey');
   }
 }
 
@@ -99,7 +99,7 @@ module.exports.processRegisterPage = (req, res, next) => {
           });
       } else {
           return passport.authenticate('local')(req, res, () => {
-              res.redirect('/');
+              res.redirect('/survey');
           })
       }
   });
