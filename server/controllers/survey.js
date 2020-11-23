@@ -66,30 +66,18 @@ module.exports.createSurvey = (req,res,next) => {
         questionlist:[]
     });
 
-    let questionText = data.questionText;
-    let questionType = data.questionType;
+    let questions = data.question;
 
-    if(typeof questionText === "string")
-    {
+    for(let i = 0; i < questions.length; i++){
+
+        
         let question = new Question({
-            text:questionText,
-            type:questionType,
-            options:[]
-        });
-
+                    text: questions[i].Text,
+                    type: questions[i].Type,
+                    options:[]
+                });
+        
         newSurvey.questionlist.push(question);
-    }
-    else
-    {
-        for(let i = 0; i < questionText.length; i++){
-            let question = new Question({
-                text:questionText[i],
-                type:questionType[i],
-                options:[]
-            });
-    
-            newSurvey.questionlist.push(question);
-        }
     }
 
     Survey.create(newSurvey, (err) => {
@@ -134,30 +122,18 @@ module.exports.editSurvey = (req,res,next) => {
         questionlist:[]
     });
 
-    let questionText = data.questionText;
-    let questionType = data.questionType;
+    let questions = data.question;
 
-    if(typeof questionText === "string")
-    {
+    for(let i = 0; i < questions.length; i++){
+
+        
         let question = new Question({
-            text:questionText,
-            type:questionType,
-            options:[]
-        });
-
+                    text: questions[i].Text,
+                    type: questions[i].Type,
+                    options:[]
+                });
+        
         updatedSurvey.questionlist.push(question);
-    }
-    else
-    {
-        for(let i = 0; i < questionText.length; i++){
-            let question = new Question({
-                text:questionText[i],
-                type:questionType[i],
-                options:[]
-            });
-    
-            updatedSurvey.questionlist.push(question);
-        }
     }
 
     Survey.updateOne({_id:id}, updatedSurvey, (err) => {

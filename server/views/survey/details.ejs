@@ -25,11 +25,11 @@
                         <div class="div-width-half">
                             <label for="questionText<%= count %>">Question Text</label>
                             <input type="text" class="form-control" id="questionText<%= count %>"
-                                placeholder="Question Text" name="questionText" value="<%= question.text %>" required>
+                                placeholder="Question Text" name="question[<%= count %>][Text]" value="<%= question.text %>" required>
                         </div>
                         <div class="div-width-half div-margin-left">
                             <label for="questionType<%= count %>">Question Type</label>
-                            <select id="questionType<%= count %>" name="questionType" class="form-control">
+                            <select id="questionType<%= count %>" name="question[<%= count %>][Type]" class="form-control">
 
                                 <% if(question.type == "text") { %>
                                 <option value="text" selected>
@@ -80,7 +80,7 @@
                                     Date
                                 </option>
                                 <% } %>
-
+<!-- 
                                 <% if(question.type == "select") { %>
                                 <option value="select" selected>
                                     Choose One
@@ -89,8 +89,8 @@
                                 <option value="select">
                                     Choose One
                                 </option>
-                                <% } %>
-
+                                <% } %> 
+-->
                                 <% if(question.type == "trueOrFalse") { %>
                                 <option value="trueOrFalse" selected>
                                     True or False
@@ -134,6 +134,16 @@
 
     let addQuestion = () => 
     {
+        let newQuestionGroup = buildQuestionGroup();
+
+        let mainFieldset = document.getElementById("mainFieldset");
+
+        mainFieldset.appendChild(newQuestionGroup);
+
+        numOfQuestions += 1;
+    }
+
+    let buildQuestionGroup = () => {
         //Create the html elements to construct a new question group
 
         let newQuestionGroup = document.createElement('div');
@@ -165,7 +175,7 @@
         let questionText = document.createElement('input');
         questionText.type = "text";
         questionText.id = "questionText" + numOfQuestions;
-        questionText.name = "questionText";
+        questionText.name = "question["+numOfQuestions+"][Text]";
         questionText.value = "New Question";
         questionText.className = "form-control";
 
@@ -174,7 +184,7 @@
         //Create questionType Selection Box to store queston type
         let questionType = document.createElement('select');
         questionType.id = "questionType" + numOfQuestions;
-        questionType.name = "questionType";
+        questionType.name = "question["+numOfQuestions+"][Type]";
         questionType.className = "form-control";
 
         //Create the options and fill the selection box
@@ -184,7 +194,7 @@
                         "Long Answer":"textarea",
                         "Time":"time",
                         "Date":"date",
-                        "Choose One":"select",
+                        //"Choose One":"select",
                         "True or False":"trueOrFalse"
                     };
 
@@ -220,11 +230,7 @@
 
         newQuestionGroup.appendChild(newQuestionRow);
 
-        let mainFieldset = document.getElementById("mainFieldset");
-
-        mainFieldset.appendChild(newQuestionGroup);
-
-        numOfQuestions += 1;
+        return newQuestionGroup;
     }
 
     let removeQuestion = (questionGroupId) => {
