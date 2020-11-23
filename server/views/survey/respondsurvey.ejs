@@ -24,6 +24,7 @@
                             </select>
                         <% } else if(question.type == "trueOrFalse") { %>  
                             <select id="answerinput<%= count %>" name="answerText" class="form-control" required>
+                                <option value="" selected disabled hidden>Click to Select</option>
                                 <option value="true">True</option>
                                 <option value="false">False</option>
                             </select>
