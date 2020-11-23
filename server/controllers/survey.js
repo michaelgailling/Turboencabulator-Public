@@ -66,30 +66,18 @@ module.exports.createSurvey = (req,res,next) => {
         questionlist:[]
     });
 
-    let questionText = data.questionText;
-    let questionType = data.questionType;
+    let questions = data.question;
 
-    if(typeof questionText === "string")
-    {
+    for(let i = 0; i < questions.length; i++){
+
+        
         let question = new Question({
-            text:questionText,
-            type:questionType,
-            options:[]
-        });
-
+                    text: questions[i].Text,
+                    type: questions[i].Type,
+                    options:[]
+                });
+        
         newSurvey.questionlist.push(question);
-    }
-    else
-    {
-        for(let i = 0; i < questionText.length; i++){
-            let question = new Question({
-                text:questionText[i],
-                type:questionType[i],
-                options:[]
-            });
-    
-            newSurvey.questionlist.push(question);
-        }
     }
 
     Survey.create(newSurvey, (err) => {
@@ -134,30 +122,18 @@ module.exports.editSurvey = (req,res,next) => {
         questionlist:[]
     });
 
-    let questionText = data.questionText;
-    let questionType = data.questionType;
+    let questions = data.question;
 
-    if(typeof questionText === "string")
-    {
+    for(let i = 0; i < questions.length; i++){
+
+        
         let question = new Question({
-            text:questionText,
-            type:questionType,
-            options:[]
-        });
-
+                    text: questions[i].Text,
+                    type: questions[i].Type,
+                    options:[]
+                });
+        
         updatedSurvey.questionlist.push(question);
-    }
-    else
-    {
-        for(let i = 0; i < questionText.length; i++){
-            let question = new Question({
-                text:questionText[i],
-                type:questionType[i],
-                options:[]
-            });
-    
-            updatedSurvey.questionlist.push(question);
-        }
     }
 
     Survey.updateOne({_id:id}, updatedSurvey, (err) => {
@@ -228,28 +204,17 @@ module.exports.createResponse = (req,res,next) => {
         answers:[]
     });
 
-    let answerText = data.answerText;
-    let questionText = data.questionText;
+    let answers = data.response
 
-    if(typeof answerText === "string")
-    {
-        let answer = new Answer({
-            questiontext: questionText,
-            answertext: answerText
-        })
-        newRespsonse.answers.push(answer);
-    }
-    else
-    {
+    for(let i = 0; i < answers.length; i++){
+
         
-        for(let i = 0; i < answerText.length; i++){
-            let answer = new Answer({
-                questiontext: questionText[i],
-                answertext: answerText[i]
-            })
+        let answer = new Answer({
+                    questiontext: answers[i].question,
+                    answertext: answers[i].answer
+        });
 
-            newRespsonse.answers.push(answer);
-        }
+        newRespsonse.answers.push(answer);
     }
 
     Response.create(newRespsonse, (err) => {
