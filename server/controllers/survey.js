@@ -29,7 +29,7 @@ module.exports.displaySurveyList = (req,res,next) =>
     else
     {
         //Find and list all the surveys
-        Survey.find( (err, surveys) => {
+        Survey.find({ownerId : req.user.id}, (err, surveys) => {
             if (err) {
             return console.error(err);
             }
@@ -91,6 +91,7 @@ module.exports.createSurvey = (req,res,next) => {
 
         let newSurvey = new Survey({
             title: data.title,
+            ownerId: req.user.id,
             questionlist:[]
         });
 
@@ -167,6 +168,7 @@ module.exports.editSurvey = (req,res,next) => {
         let updatedSurvey = new Survey({
             "_id": id,
             title: data.title,
+            ownerId: req.user.id,
             questionlist:[]
         });
 
@@ -285,7 +287,14 @@ module.exports.createResponse = (req,res,next) => {
         }
         else
         {
-            res.redirect('/survey');
+            if (!req.user) 
+            {
+                res.redirect('/');
+            }
+            else{
+                res.redirect('/survey');
+            }
+            
         }
     });
 }
