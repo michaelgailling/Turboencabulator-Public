@@ -30,7 +30,8 @@ module.exports.displaySurveyList = (req,res,next) =>
             
             res.render('survey/index', { 
                 title: 'Survey List', 
-                surveys: surveys
+                surveys: surveys,
+                displayName: req.user ? req.user.displayName : ''
             });
         }
       });
@@ -54,7 +55,11 @@ module.exports.displayCreateSurvey = (req,res,next) =>
         questionlist:[newQuestion,newQuestion2]
     });
 
-    return res.render('survey/details', {title: 'Create Survey', survey: newSurvey});
+    return res.render('survey/details', {
+        title: 'Create Survey', 
+        survey: newSurvey, 
+        displayName: req.user ? req.user.displayName : ''
+    });
 }
 
 module.exports.createSurvey = (req,res,next) => {
@@ -106,7 +111,11 @@ module.exports.displayEditSurvey = (req,res,next) =>
       else
       {
           //questons is sent as its own list
-          res.render('survey/details', {title : "Edit Survey", survey : currentsurvey});
+          res.render('survey/details', {
+              title : "Edit Survey", 
+              survey : currentsurvey,
+              displayName: req.user ? req.user.displayName : '' 
+            });
       }
   });
 }
@@ -188,7 +197,11 @@ module.exports.displaySurvey = (req,res,next) => {
         }
         else
         {
-            res.render('survey/respondsurvey', {title : "Respond to survey", survey : currentsurvey});
+            res.render('survey/respondsurvey', {
+                title : "Respond to survey", 
+                survey : currentsurvey,
+                displayName: req.user ? req.user.displayName : ''
+            });
         }
     });
 }
@@ -247,7 +260,11 @@ module.exports.dispaySurveyResponses = (req,res,next) => {
                     res.end(err);
                 }
 
-                res.render('survey/responselist', {title:"Response List", responses : responses, surveytitle : survey.title});
+                res.render('survey/responselist', {
+                    title:"Response List", 
+                    responses : responses, surveytitle : survey.title,
+                    displayName: req.user ? req.user.displayName : ''
+                });
             })
 
             
@@ -263,7 +280,10 @@ module.exports.dispaySurveyAnswers = (req,res,next) => {
             console.error(err);
             res.end(err);
         }
-        res.render('survey/responsedetails', {title : "Survey Answers", response : currentresponse});
+        res.render('survey/responsedetails', {
+            title : "Survey Answers", 
+            response : currentresponse,
+            displayName: req.user ? req.user.displayName : ''});
     });
 }
 
@@ -307,6 +327,10 @@ module.exports.displayVisibleSuveys = (req,res,next) => {
             console.error(err);
             res.end(err);
         }
-        res.render('home/index', {title : "Available Surveys", surveys : surveys});
+        res.render('home/index', {
+            title : "Available Surveys", 
+            surveys : surveys,
+            displayName: req.user ? req.user.displayName : ''
+        });
     });
 }
