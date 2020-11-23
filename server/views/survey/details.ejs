@@ -17,102 +17,102 @@
                 </div>
                 <% for(let count = 0; count < survey.questionlist.length; count++) { %>
 
-                <% let question = survey.questionlist[count] %>
-                <% let questionGroupId = "questionGroup" + count %>
+                    <% let question = survey.questionlist[count] %>
+                    <% let questionGroupId = "questionGroup" + count %>
 
-                <div class="form-group form-group-twiks" id="<%= questionGroupId %>">
-                    <div class="div-flex">
-                        <div class="div-width-half">
-                            <label for="questionText<%= count %>">Question Text</label>
-                            <input type="text" class="form-control" id="questionText<%= count %>"
-                                placeholder="Question Text" name="question[<%= count %>][Text]" value="<%= question.text %>" required>
+                    <div class="form-group form-group-twiks" id="<%= questionGroupId %>">
+                        <div class="div-flex">
+                            <div class="div-width-half">
+                                <label for="questionText<%= count %>">Question Text</label>
+                                <input type="text" class="form-control" id="questionText<%= count %>"
+                                    placeholder="Question Text" name="question[<%= count %>][Text]" value="<%= question.text %>" required>
+                            </div>
+                            <div class="div-width-half div-margin-left">
+                                <label for="questionType<%= count %>">Question Type</label>
+                                <select id="questionType<%= count %>" name="question[<%= count %>][Type]" class="form-control">
+
+                                    <% if(question.type == "text") { %>
+                                    <option value="text" selected>
+                                        Short Answer(Text)
+                                    </option>
+                                    <% } else { %>
+                                    <option value="text">
+                                        Short Answer(Text)
+                                    </option>
+                                    <% } %>
+
+                                    <% if(question.type == "number") { %>
+                                    <option value="number" selected>
+                                        Short Answer(Number)
+                                    </option>
+                                    <% } else { %>
+                                    <option value="number">
+                                        Short Answer(Number)
+                                    </option>
+                                    <% } %>
+
+                                    <% if(question.type == "textarea") { %>
+                                    <option value="textarea" selected>
+                                        Long Answer
+                                    </option>
+                                    <% } else { %>
+                                    <option value="textarea">
+                                        Long Answer
+                                    </option>
+                                    <% } %>
+
+                                    <% if(question.type == "time") { %>
+                                    <option value="time" selected>
+                                        Time
+                                    </option>
+                                    <% } else { %>
+                                    <option value="time">
+                                        Time
+                                    </option>
+                                    <% } %>
+
+                                    <% if(question.type == "date") { %>
+                                    <option value="date" selected>
+                                        Date
+                                    </option>
+                                    <% } else { %>
+                                    <option value="date">
+                                        Date
+                                    </option>
+                                    <% } %>
+    <!-- 
+                                    <% if(question.type == "select") { %>
+                                    <option value="select" selected>
+                                        Choose One
+                                    </option>
+                                    <% } else { %>
+                                    <option value="select">
+                                        Choose One
+                                    </option>
+                                    <% } %> 
+    -->
+                                    <% if(question.type == "trueOrFalse") { %>
+                                    <option value="trueOrFalse" selected>
+                                        True or False
+                                    </option>
+                                    <% } else { %>
+                                    <option value="trueOrFalse">
+                                        True or False
+                                    </option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <% if(count > 0) { %>
+                            <div class="div-btn-holder">
+                                <a type="button" name="removeBtn" class="btn btn-delete-question"
+                                    onclick="removeQuestion('<%= questionGroupId %>');"><i class="fas fa-times"></i></a>
+                            </div>
+                            <% } %>
+
                         </div>
-                        <div class="div-width-half div-margin-left">
-                            <label for="questionType<%= count %>">Question Type</label>
-                            <select id="questionType<%= count %>" name="question[<%= count %>][Type]" class="form-control">
 
-                                <% if(question.type == "text") { %>
-                                <option value="text" selected>
-                                    Short Answer(Text)
-                                </option>
-                                <% } else { %>
-                                <option value="text">
-                                    Short Answer(Text)
-                                </option>
-                                <% } %>
-
-                                <% if(question.type == "number") { %>
-                                <option value="number" selected>
-                                    Short Answer(Number)
-                                </option>
-                                <% } else { %>
-                                <option value="number">
-                                    Short Answer(Number)
-                                </option>
-                                <% } %>
-
-                                <% if(question.type == "textarea") { %>
-                                <option value="textarea" selected>
-                                    Long Answer
-                                </option>
-                                <% } else { %>
-                                <option value="textarea">
-                                    Long Answer
-                                </option>
-                                <% } %>
-
-                                <% if(question.type == "time") { %>
-                                <option value="time" selected>
-                                    Time
-                                </option>
-                                <% } else { %>
-                                <option value="time">
-                                    Time
-                                </option>
-                                <% } %>
-
-                                <% if(question.type == "date") { %>
-                                <option value="date" selected>
-                                    Date
-                                </option>
-                                <% } else { %>
-                                <option value="date">
-                                    Date
-                                </option>
-                                <% } %>
-<!-- 
-                                <% if(question.type == "select") { %>
-                                <option value="select" selected>
-                                    Choose One
-                                </option>
-                                <% } else { %>
-                                <option value="select">
-                                    Choose One
-                                </option>
-                                <% } %> 
--->
-                                <% if(question.type == "trueOrFalse") { %>
-                                <option value="trueOrFalse" selected>
-                                    True or False
-                                </option>
-                                <% } else { %>
-                                <option value="trueOrFalse">
-                                    True or False
-                                </option>
-                                <% } %>
-                            </select>
-                        </div>
-                        <% if(count > 0) { %>
-                        <div class="div-btn-holder">
-                            <a type="button" name="removeBtn" class="btn btn-delete-question"
-                                onclick="removeQuestion('<%= questionGroupId %>');"><i class="fas fa-times"></i></a>
-                        </div>
-                        <% } %>
 
                     </div>
-
-
-                </div>
                 <% } %>
             </fieldset>
             <a type="button" style="margin-bottom: 10px; margin-top: 10px;" class="btn btn-primary btn-line btn-new"

@@ -92,6 +92,7 @@ module.exports.createSurvey = (req,res,next) => {
         let newSurvey = new Survey({
             title: data.title,
             ownerId: req.user.id,
+            ownerName: req.user.displayName,
             questionlist:[]
         });
 
@@ -169,6 +170,7 @@ module.exports.editSurvey = (req,res,next) => {
             "_id": id,
             title: data.title,
             ownerId: req.user.id,
+            ownerName: req.user.displayName,
             questionlist:[]
         });
 
