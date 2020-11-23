@@ -3,6 +3,22 @@
 
 <main class="container min-vh-100">
 
+  <h1 style="text-align: center;"><%= title %></h1>
+  <br>
+
+  <table style="border-bottom-left-radius: 0%; border-bottom-right-radius: 0%;">
+    <% for(let count = 0; count <  surveys.length; count++) { %>
+    <tr>
+      <td>
+        <a href="/survey/respond/<%= surveys[count]._id %>"> <%= surveys[count].title %> </a>
+      </td>
+      <td>
+        By: <%= surveys[count].ownerName %>
+      </td>
+    </tr>
+    <% } %>
+  </table>
+
   <div class="row min-vh-100 align-items-center justify-content-center text-center">
     <div class="col">
       <div class="pb-5">
@@ -13,24 +29,11 @@
       </div>
 
       <div>
-        <a class="btn btn-info btn-lg" href="/survey">Get Started &nbsp;&nbsp;<i class="fas fa-arrow-right"></i></a>
+        <a class="btn btn-info btn-lg" href="/register">Get Started &nbsp;&nbsp;<i class="fas fa-arrow-right"></i></a>
       </div>
 
     </div>
   </div>
-
-  <h1 style="text-align: center;"><%= title %></h1>
-  <br>
-
-  <table style="border-bottom-left-radius: 0%; border-bottom-right-radius: 0%;">
-    <% for(let count = 0; count <  surveys.length; count++) { %>
-    <tr>
-      <td>
-        <a href="/survey/respond/<%= surveys[count]._id %>"> <%= surveys[count].title %> </a>
-      </td>
-    </tr>
-    <% } %>
-  </table>
 </main>
 
     

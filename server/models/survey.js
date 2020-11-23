@@ -23,6 +23,20 @@ let surveySchema = Schema
             trim: true,
             required: "Title is required..."
         },
+        ownerId:
+        {
+            type: String,
+            default:"",
+            trim: true,
+            required: "OwnerId is required..."
+        },
+        ownerName:
+        {
+            type: String,
+            default:"",
+            trim: true,
+            required: "OwnerId is required..."
+        },
         questionlist:
         {
             type: Array,
