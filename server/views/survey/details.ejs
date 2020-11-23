@@ -5,136 +5,127 @@
     <h1 style="text-align: center;"><%= title %></h1>
     <br>
     <div>
-        
-    <form class="form" method="post" id="surveyForm">
-        <fieldset id="mainFieldset" style="max-width: 700px; margin-left: auto; margin-right: auto;">
-            <div class="form-group">
-                <div style="padding: 0%;">
-                    <label for="TitleTextField">Title</label>
-                    <input type="text" class="form-control" id="TitleTextField" placeholder="Survey Title" name="title"
-                        value="<%= survey.title %>" required>
+
+        <form class="form" method="post" id="surveyForm">
+            <fieldset id="mainFieldset" style="max-width: 700px; margin-left: auto; margin-right: auto;">
+                <div class="form-group">
+                    <div style="padding: 0%;">
+                        <label for="TitleTextField">Title</label>
+                        <input type="text" class="form-control" id="TitleTextField" placeholder="Survey Title"
+                            name="title" value="<%= survey.title %>" required>
+                    </div>
                 </div>
-            </div>
-            <% for(let count = 0; count < survey.questionlist.length; count++) { %>
+                <% for(let count = 0; count < survey.questionlist.length; count++) { %>
 
-            <% let question = survey.questionlist[count] %>
-            <% let questionGroupId = "questionGroup" + count %>
+                <% let question = survey.questionlist[count] %>
+                <% let questionGroupId = "questionGroup" + count %>
 
-            <div class="form-group form-group-twiks" id="<%= questionGroupId %>">
-                <div class="div-flex">
-                    <div class="div-width-half">
-                        <label for="questionText<%= count %>">Question Text</label>
-                        <input type="text" class="form-control" id="questionText<%= count %>"
-                            placeholder="Question Text" name="questionText" value="<%= question.text %>" required>
+                <div class="form-group form-group-twiks" id="<%= questionGroupId %>">
+                    <div class="div-flex">
+                        <div class="div-width-half">
+                            <label for="questionText<%= count %>">Question Text</label>
+                            <input type="text" class="form-control" id="questionText<%= count %>"
+                                placeholder="Question Text" name="questionText" value="<%= question.text %>" required>
+                        </div>
+                        <div class="div-width-half div-margin-left">
+                            <label for="questionType<%= count %>">Question Type</label>
+                            <select id="questionType<%= count %>" name="questionType" class="form-control">
+
+                                <% if(question.type == "text") { %>
+                                <option value="text" selected>
+                                    Short Answer(Text)
+                                </option>
+                                <% } else { %>
+                                <option value="text">
+                                    Short Answer(Text)
+                                </option>
+                                <% } %>
+
+                                <% if(question.type == "number") { %>
+                                <option value="number" selected>
+                                    Short Answer(Number)
+                                </option>
+                                <% } else { %>
+                                <option value="number">
+                                    Short Answer(Number)
+                                </option>
+                                <% } %>
+
+                                <% if(question.type == "textarea") { %>
+                                <option value="textarea" selected>
+                                    Long Answer
+                                </option>
+                                <% } else { %>
+                                <option value="textarea">
+                                    Long Answer
+                                </option>
+                                <% } %>
+
+                                <% if(question.type == "time") { %>
+                                <option value="time" selected>
+                                    Time
+                                </option>
+                                <% } else { %>
+                                <option value="time">
+                                    Time
+                                </option>
+                                <% } %>
+
+                                <% if(question.type == "date") { %>
+                                <option value="date" selected>
+                                    Date
+                                </option>
+                                <% } else { %>
+                                <option value="date">
+                                    Date
+                                </option>
+                                <% } %>
+
+                                <% if(question.type == "select") { %>
+                                <option value="select" selected>
+                                    Choose One
+                                </option>
+                                <% } else { %>
+                                <option value="select">
+                                    Choose One
+                                </option>
+                                <% } %>
+
+                                <% if(question.type == "trueOrFalse") { %>
+                                <option value="trueOrFalse" selected>
+                                    True or False
+                                </option>
+                                <% } else { %>
+                                <option value="trueOrFalse">
+                                    True or False
+                                </option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <% if(count > 0) { %>
+                        <div class="div-btn-holder">
+                            <a type="button" name="removeBtn" class="btn btn-delete-question"
+                                onclick="removeQuestion('<%= questionGroupId %>');"><i class="fas fa-times"></i></a>
+                        </div>
+                        <% } %>
+
                     </div>
-                    <div class="div-width-half div-margin-left">
-                        <label for="questionType<%= count %>">Question Type</label>
-                        <select id="questionType<%= count %>" name="questionType" class="form-control">
 
-                            <% if(question.type == "text") { %>
-                            <option value="text" selected>
-                                Short Answer(Text)
-                            </option>
-                            <% } else { %>
-                            <option value="text">
-                                Short Answer(Text)
-                            </option>
-                            <% } %>
-
-                            <% if(question.type == "number") { %>
-                            <option value="number" selected>
-                                Short Answer(Number)
-                            </option>
-                            <% } else { %>
-                            <option value="number">
-                                Short Answer(Number)
-                            </option>
-                            <% } %>
-
-                            <% if(question.type == "textarea") { %>
-                            <option value="textarea" selected>
-                                Long Answer
-                            </option>
-                            <% } else { %>
-                            <option value="textarea">
-                                Long Answer
-                            </option>
-                            <% } %>
-
-                            <% if(question.type == "time") { %>
-                            <option value="time" selected>
-                                Time
-                            </option>
-                            <% } else { %>
-                            <option value="time">
-                                Time
-                            </option>
-                            <% } %>
-
-                            <% if(question.type == "date") { %>
-                            <option value="date" selected>
-                                Date
-                            </option>
-                            <% } else { %>
-                            <option value="date">
-                                Date
-                            </option>
-                            <% } %>
-
-                            <% if(question.type == "select") { %>
-                            <option value="select" selected>
-                                Choose One
-                            </option>
-                            <% } else { %>
-                            <option value="select">
-                                Choose One
-                            </option>
-                            <% } %>
-                            
-                            <% if(question.type == "checkbox") { %>
-                            <option value="checkbox" selected>
-                                Choose Multiple
-                            </option>
-                            <% } else { %>
-                            <option value="checkbox">
-                                Choose Multiple
-                            </option>
-                            <% } %>
-
-                            <% if(question.type == "trueOrFalse") { %>
-                            <option value="trueOrFalse" selected>
-                                True or False
-                            </option>
-                            <% } else { %>
-                            <option value="trueOrFalse">
-                                True or False
-                            </option>
-                            <% } %>
-                        </select>
-                    </div>
-                    <% if(count > 0) { %>
-                    <div class="div-btn-holder">
-                        <a type="button" class="btn btn-delete-question" onclick="removeQuestion('<%= questionGroupId %>');"><i
-                            class="fas fa-times"></i></a>
-                    </div>
-                    <% } %>
 
                 </div>
-
-
+                <% } %>
+            </fieldset>
+            <a type="button" style="margin-bottom: 10px; margin-top: 10px;" class="btn btn-primary btn-line btn-new"
+                onclick="addQuestion();"><i class="fas fa-plus"></i> Add Question</a>
+            <div style="margin-right: auto; margin-left: auto; max-width: 700px;">
+                <button type="submit" class="btn btn-edit"><i class="fas fa-check"></i> Submit</i></button>
+                <a href="/survey" class="btn btn-delete"><i class="fas fa-times"></i> Cancel</a>
             </div>
-            <% } %>
-        </fieldset>
-        <a type="button" style="margin-bottom: 10px; margin-top: 10px;" class="btn btn-primary btn-line btn-new" onclick="addQuestion();"><i class="fas fa-plus"></i> Add Question</a>
-        <div style="margin-right: auto; margin-left: auto; max-width: 700px;">
-            <button type="submit" class="btn btn-edit"><i class="fas fa-check"></i> Submit</i></button>
-            <a href="/survey" class="btn btn-delete"><i class="fas fa-times"></i> Cancel</a>
-        </div>
-        
-    </form>
+
+        </form>
     </div>
-    
-    
+
+
 </main>
 
 <script>
@@ -169,7 +160,7 @@
 
         questionTextCol.appendChild(questionTextLabel);
         questionTypeCol.appendChild(questionTypeLabel);
-        
+
         //Create questonText Element for holding the question text
         let questionText = document.createElement('input');
         questionText.type = "text";
@@ -187,17 +178,24 @@
         questionType.className = "form-control";
 
         //Create the options and fill the selection box
-        let optionLabels = ["Short Answer(Text)","Short Answer(Number)","Long Answer","Time","Date","Choose One"]
-        let options = ["text","number","textarea","time","date","select"]
+        let optionDict = {
+                        "Short Answer(Text)":"text",
+                        "Short Answer(Number)":"number",
+                        "Long Answer":"textarea",
+                        "Time":"time",
+                        "Date":"date",
+                        "Choose One":"select",
+                        "True or False":"trueOrFalse"
+                    };
 
-        for(let i = 0; i < options.length; i++){
+        for(key in optionDict){
             let option = document.createElement('option');
-            option.value = options[i];
-            option.textContent = optionLabels[i];
+            option.value = optionDict[key]
+            option.textContent = key;
 
             questionType.appendChild(option);
         }
-        
+
         //Create a button to remove input elements
         let buttonHolder = document.createElement('div');
         buttonHolder.className = "div-btn-holder";
@@ -206,12 +204,13 @@
             removeQuestion(newQuestionGroup.id);
         };
         removeButton.type = "button";
+        removeButton.name = "removeBtn";
         removeButton.classList.add("btn");
-        removeButton.classList.add("btn-delete-question")
+        removeButton.classList.add("btn-delete-question");
         removeButton.innerHTML = "<i class='fas fa-times'></i>";
 
         questionTypeCol.appendChild(questionType);
-        
+
         newQuestionRow.appendChild(questionTextCol);
 
         newQuestionRow.appendChild(questionTypeCol);
@@ -221,7 +220,7 @@
 
         newQuestionGroup.appendChild(newQuestionRow);
 
-        let mainFieldset  = document.getElementById("mainFieldset");
+        let mainFieldset = document.getElementById("mainFieldset");
 
         mainFieldset.appendChild(newQuestionGroup);
 
@@ -231,11 +230,13 @@
     let removeQuestion = (questionGroupId) => {
         let questionGroup = document.getElementById(questionGroupId);
 
-        if(questionGroup){
+        if (questionGroup) {
             questionGroup.parentNode.removeChild(questionGroup);
             numOfQuestions -= 1;
         }
     }
+
+    
 </script>
 
 <% include ../partials/bottom_nav.ejs %>
