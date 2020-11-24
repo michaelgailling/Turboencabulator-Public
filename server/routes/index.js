@@ -41,4 +41,7 @@ router.get('/reset',indexController.displayPasswordReset);
 /* POST Route to process forgot password page */
 router.post('/reset',indexController.procPasswordReset);
 
+/* GET Route for password reset success */
+router.get('/resetsuccess',indexController.displayResetSuccess);
+
 module.exports = router;

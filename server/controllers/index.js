@@ -118,7 +118,7 @@ module.exports.displayForgotPassword = (req,res,next) =>{
             displayName: req.user ? req.user.displayName : ''
         });
     } else {
-        return res.redirect('/');
+        return res.redirect('/suvey');
     }
 }
 
@@ -136,7 +136,7 @@ module.exports.procForgotPassword = (req,res,next) =>{
         if (typeof user === 'object') 
         {
 
-            let resetCode = crypto.randomBytes(2).toString('hex');
+            let resetCode = crypto.randomBytes(3).toString('hex');
 
             let updatedUser = new User({
                 _id: user.id,
@@ -158,14 +158,19 @@ module.exports.procForgotPassword = (req,res,next) =>{
             });
 
             let subject = "Turboencabulator Forgot Password";
-
-            let text = "Either you or someone else has requested a password rest!Reset Code:" + resetCode + "If you did not make this request please ignore this email!";
-
+            let resetUrl = req.protocol + '://' + req.get('host') + '/reset';
+            let text = "Reset Code:" + resetCode;
+            let html = 
+            "<html> Either you or someone else has requested a password rest!"+
+            "<br>Reset Code: " + resetCode + 
+            "<br>Please enter your code at the following page: "+ resetUrl +
+            "<br>If you did not make this request please ignore this email! </html>";
             var mailOptions = {
                 from: "turboencabulatorsurvey@gmail.com",
                 to: emailInput,
                 subject: subject,
                 text: text,
+                html: html
             };
 
             transporter.sendMail(mailOptions, function (err, info) {
@@ -188,14 +193,17 @@ module.exports.procForgotPassword = (req,res,next) =>{
 }
 
 module.exports.displayPasswordReset = (req,res,next) => {
-    if(!req.user) {
+    if(!req.user) 
+    {
         res.render('auth/forgotreset', {
             title: 'Reset Password',
             message: req.flash('resetMessage'),
             displayName: req.user ? req.user.displayName : ''
         });
-    } else {
-        return res.redirect('/');
+    } 
+    else 
+    {
+        return res.redirect('/survey');
     }
 }
 
@@ -212,21 +220,36 @@ module.exports.procPasswordReset = (req,res,next) => {
             res.end(err);
         }
 
-        if (typeof user === 'object') 
+        if (typeof user === 'object' && user != null) 
         {
-            
-            let expiry = Date.parse(user.resetExpiry);
-            if( expiry < Date.now())
+            let expiryDate = Date.parse(user.resetExpiry);
+            if( expiryDate < Date.now())
             {
-                req.flash('resetMessage', 'Reset Code Has Expired');
+                user.resetExpiry = undefined;
+                user.resetCode = undefined;
+
+                user.save((err) => {
+                    if (err){
+                        console.error(err);
+                        res.end(err);
+                    }
+                });
+
+                req.flash('resetMessage', 'Reset Code Has Expired!');
                 return res.redirect('/reset');
             }
 
             user.setPassword(passwordInput, (err,user) => {
-                if(err){
+                if(err)
+                {
                     console.error(err);
                     res.end(err);
-                } else {
+                } 
+                else 
+                {
+                    user.resetExpiry = undefined;
+                    user.resetCode = undefined;
+                    
                     user.save((err) => {
                         if (err){
                             console.error(err);
@@ -237,9 +260,25 @@ module.exports.procPasswordReset = (req,res,next) => {
                 }
             });
 
-
-
-            return res.redirect('/');
+            return res.redirect('/resetsuccess');
         }
+
+        req.flash('resetMessage', 'Something went Wrong! Try again!');
+        return res.redirect('/reset');
     });
+}
+
+module.exports.displayResetSuccess = (req,res,next) => {
+    if(!req.user) 
+    {
+        res.render('auth/resetsuccess', {
+            title: 'Password Reset Success',
+            message: '',
+            displayName: req.user ? req.user.displayName : ''
+        });
+    } 
+    else 
+    {
+        return res.redirect('/');
+    }
 }

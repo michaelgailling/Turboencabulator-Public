@@ -1,0 +1,27 @@
+<% include ../partials/header.ejs %>
+<% include ../partials/main_nav.ejs %>
+
+
+<main class="container">
+    <!-- Message Area -->
+    <% if(message.length > 0) { %>
+        <div class="alert alert-danger">
+            <%= message %>
+        </div>
+    <% } %>
+
+    <div style="width: 50%; margin: auto;">
+        <h2>
+            Password Reset Complete
+        </h2>
+        <a href="/login">
+            <input type="button" class="btn btn-success" value="Proceed to Login">
+        </a>
+    </div>
+
+</main>
+
+
+
+<% include ../partials/bottom_nav.ejs %>
+<% include ../partials/footer.ejs %>
