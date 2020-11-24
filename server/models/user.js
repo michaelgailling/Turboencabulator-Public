@@ -35,6 +35,15 @@ let User = mongoose.Schema
         {
             type: Date,
             default: Date.now
+        },
+        resetToken:
+        {
+            type: String,
+            default: ''
+        },
+        resetExpiry: 
+        {
+            type: Date
         }
 
     },

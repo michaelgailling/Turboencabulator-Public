@@ -8,6 +8,8 @@
 
 let express = require('express');
 
+let crypto = require('crypto');
+
 //Passport
 let passport = require('passport');
 
@@ -122,24 +124,58 @@ module.exports.displayForgotPassword = (req,res,next) =>{
 
 
 module.exports.procForgotPassword = (req,res,next) =>{
-    let email = req.body.email;
+    let emailInput = req.body.email;
 
-    var mailOptions = {
-        from: 'turboencabulatorsurvey@gmail.com',
-        to: email,
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
-    };
+    User.findOne({ email: emailInput }, (err, user) => {
+        if (typeof users[0] === 'object') 
+        {
 
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
+            let resetCode = crypto.randomBytes(2).toString('hex');
+
+            let updatedUser = new User({
+                _id: user.id,
+                username: user.username,
+                email: user.email,
+                displayName: user.displayName,
+                update: Date.now(),
+                resetToken: resetCode,
+                resetExpiry: Date.now() + 3600000
+            });
+
+            User.updateOne({_id:user.id}, updatedUser, (err) => {
+                if(err)
+                {
+                    console.error(err);
+                    res.end(err);
+                }
+            });
+
+            let subject = "Turboencabulator Forgot Password";
+
+            let text = "Either you or someone else has requested a password rest!Reset Code:" + resetCode + "If you did not make this request please ignore this email!";
+
+            var mailOptions = {
+                from: "turboencabulatorsurvey@gmail.com",
+                to: emailInput,
+                subject: subject,
+                text: text,
+            };
+
+            transporter.sendMail(mailOptions, function (err, info) {
+                if (err) 
+                {
+                    console.log(err);
+                } else 
+                {
+                    console.log("Email sent: " + info.response);
+                }
+            });
+            return res.redirect('/');
         }
-      });
-
-    return res.redirect('/');
-
-    
+        else
+        {
+            req.flash('forgotMessage', 'Invalid Email');
+            return res.redirect('/forgot');
+        }
+    });    
 }
