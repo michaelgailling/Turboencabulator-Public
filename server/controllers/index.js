@@ -235,8 +235,8 @@ module.exports.procPasswordReset = (req,res,next) => {
                     }
                 });
 
-                req.flash('resetMessage', 'Reset Code Has Expired!');
-                return res.redirect('/reset');
+                req.flash('forgotMessage', 'Reset Code Has Expired! Please Try Again!');
+                return res.redirect('/forgot');
             }
 
             user.setPassword(passwordInput, (err,user) => {
