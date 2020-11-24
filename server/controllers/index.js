@@ -277,8 +277,7 @@ module.exports.displayResetSuccess = (req,res,next) => {
             displayName: req.user ? req.user.displayName : ''
         });
     } 
-    else 
-    {
-        return res.redirect('/');
-    }
+
+    req.flash('resetMessage', 'Something went Wrong! Try again!');
+    return res.redirect('/reset');
 }
