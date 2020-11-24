@@ -16,18 +16,24 @@ let surveyController = require("../controllers/survey");
 /* GET home page. */
 router.get('/', surveyController.displayVisibleSuveys);
 
-/* GET Rout for displaying Login page */
+/* GET Route for displaying Login page */
 router.get('/login', indexController.displayLoginPage);
-/* POST Rout for processing Login page*/
+/* POST Route for processing Login page*/
 router.post('/login', indexController.processLoginPage);
 
-/* GET Rout for displaying Register page */
+/* GET Route for displaying Register page */
 router.get('/register', indexController.displayRegisterPage);
-/* POST Rout for processing Register page*/
+/* POST Route for processing Register page*/
 router.post('/register', indexController.processRegisterPage);
 
-/* GET Rout to perform UserLogout */
+/* GET Route to perform UserLogout */
 router.get('/logout', indexController.performLogout);
+
+/* GET Route to perform displaying forgot password page */
+router.get('/forgot',indexController.displayForgotPassword);
+
+/* POST Route to proc password page */
+router.post('/forgot',indexController.procForgotPassword);
 
 
 module.exports = router;

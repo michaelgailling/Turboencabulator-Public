@@ -42,15 +42,6 @@ mongoDB.once('open', ()=>{
   console.log("Connected to mongoDB!");
 });
 
-//Email Setup
-let nodemailer = require('nodemailer');
-let EMAIL = require('./email');
-
-let transporter = nodemailer.createTransport(EMAIL.transport);
-
-
-
-
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
@@ -76,8 +67,6 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-//passport user configuration
-
 //create a User Model Instance
 let userModel = require('../models/user');
 let User = userModel.User;
@@ -88,7 +77,6 @@ passport.use(User.createStrategy());
 //serialize and deserialize the User info
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

@@ -7,14 +7,12 @@
 \*/
 
 let express = require('express');
-let router = express.Router;
-
-//DB
-let mongoose = require('mongoose');
-let Survey = require('../models/survey');
 
 //Passport
 let passport = require('passport');
+
+//Email
+var transporter = require('../config/transport');
 
 //Create User Model Instance
 let userModel = require('../models/user');
@@ -108,4 +106,40 @@ module.exports.processRegisterPage = (req, res, next) => {
 module.exports.performLogout = (req, res, next) => {
   req.logout();
   res.redirect('/');
+}
+
+module.exports.displayForgotPassword = (req,res,next) =>{
+    if(!req.user) {
+        res.render('auth/forgot', {
+            title: 'Register',
+            message: req.flash('forgotMessage'),
+            displayName: req.user ? req.user.displayName : ''
+        });
+    } else {
+        return res.redirect('/');
+    }
+}
+
+
+module.exports.procForgotPassword = (req,res,next) =>{
+    let email = req.body.email;
+
+    var mailOptions = {
+        from: 'turboencabulatorsurvey@gmail.com',
+        to: email,
+        subject: 'Sending Email using Node.js',
+        text: 'That was easy!'
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+
+    return res.redirect('/');
+
+    
 }
