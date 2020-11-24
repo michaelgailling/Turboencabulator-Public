@@ -42,6 +42,15 @@ mongoDB.once('open', ()=>{
   console.log("Connected to mongoDB!");
 });
 
+//Email Setup
+let nodemailer = require('nodemailer');
+let EMAIL = require('./email');
+
+let transporter = nodemailer.createTransport(EMAIL.transport);
+
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
