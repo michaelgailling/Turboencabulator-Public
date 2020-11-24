@@ -21,180 +21,96 @@ let Answer = require('../models/answer');
 
 module.exports.displaySurveyList = (req,res,next) => 
 {
-    //Find and list all the surveys
-    Survey.find( (err, surveys) => {
-        if (err) {
-          return console.error(err);
-        }
-        else {
-            
-            res.render('survey/index', { 
-                title: 'Survey List', 
-                surveys: surveys,
-                displayName: req.user ? req.user.displayName : ''
-            });
-        }
-      });
+    if (!req.user) 
+    {
+        req.flash('loginMessage', 'Authentication Error');
+        res.redirect('/login');
+    }
+    else
+    {
+        //Find and list all the surveys
+        Survey.find({ownerId : req.user.id}, (err, surveys) => {
+            if (err) {
+            return console.error(err);
+            }
+            else {
+                
+                res.render('survey/index', { 
+                    title: 'Survey List', 
+                    surveys: surveys,
+                    displayName: req.user ? req.user.displayName : ''
+                });
+            }
+        });
+    }
+    
 }
 
 module.exports.displayCreateSurvey = (req,res,next) =>
 {
-    //Create new base objects for survey creation
-    let newQuestion = new Question({
-        text:"New Question",
-        type:"text",
-        options:[]
-    });
-    let newQuestion2 = new Question({
-        text:"New Question",
-        type:"text",
-        options:[]
-    });
-    let newSurvey = new Survey({
-        title:"New Survey",
-        questionlist:[newQuestion,newQuestion2]
-    });
+    if (!req.user) 
+    {
+        req.flash('loginMessage', 'Authentication Error');
+        res.redirect('/login');
+    }
+    else
+    {
+        //Create new base objects for survey creation
+        let newQuestion = new Question({
+            text:"New Question",
+            type:"text",
+            options:[]
+        });
+        let newQuestion2 = new Question({
+            text:"New Question",
+            type:"text",
+            options:[]
+        });
+        let newSurvey = new Survey({
+            title:"New Survey",
+            questionlist:[newQuestion,newQuestion2]
+        });
 
-    return res.render('survey/details', {
-        title: 'Create Survey', 
-        survey: newSurvey, 
-        displayName: req.user ? req.user.displayName : ''
-    });
+        return res.render('survey/details', {
+            title: 'Create Survey', 
+            survey: newSurvey, 
+            displayName: req.user ? req.user.displayName : ''
+        });
+    }
 }
 
 module.exports.createSurvey = (req,res,next) => {
-
-    let data = req.body;
-
-    let newSurvey = new Survey({
-        title: data.title,
-        questionlist:[]
-    });
-
-    let questionText = data.questionText;
-    let questionType = data.questionType;
-
-    if(typeof questionText === "string")
+    if (!req.user) 
     {
-        let question = new Question({
-            text:questionText,
-            type:questionType,
-            options:[]
-        });
-
-        newSurvey.questionlist.push(question);
+        req.flash('loginMessage', 'Authentication Error');
+        res.redirect('/login');
     }
     else
     {
-        for(let i = 0; i < questionText.length; i++){
+        let data = req.body;
+
+        let newSurvey = new Survey({
+            title: data.title,
+            ownerId: req.user.id,
+            ownerName: req.user.displayName,
+            questionlist:[]
+        });
+
+        let questions = data.question;
+
+        for(let i = 0; i < questions.length; i++){
+
+            
             let question = new Question({
-                text:questionText[i],
-                type:questionType[i],
-                options:[]
-            });
-    
+                        text: questions[i].Text,
+                        type: questions[i].Type,
+                        options:[]
+                    });
+            
             newSurvey.questionlist.push(question);
         }
-    }
 
-    Survey.create(newSurvey, (err) => {
-        if(err)
-        {
-            console.error(err);
-            res.end(err);
-        }
-        else
-        {
-            res.redirect('/survey');
-        }
-    });
-};
-
-module.exports.displayEditSurvey = (req,res,next) =>
-{
-    let id = req.params.id;
-  //Find the survey based on record id
-  Survey.findById(id, (err, currentsurvey) => {
-      if(err)
-      {
-          console.error(err);
-          res.end(err);
-      }
-      else
-      {
-          //questons is sent as its own list
-          res.render('survey/details', {
-              title : "Edit Survey", 
-              survey : currentsurvey,
-              displayName: req.user ? req.user.displayName : '' 
-            });
-      }
-  });
-}
-
-
-module.exports.editSurvey = (req,res,next) => {
-    let id = req.params.id;
-    let data = req.body;
-
-    let updatedSurvey = new Survey({
-        "_id": id,
-        title: data.title,
-        questionlist:[]
-    });
-
-    let questionText = data.questionText;
-    let questionType = data.questionType;
-
-    if(typeof questionText === "string")
-    {
-        let question = new Question({
-            text:questionText,
-            type:questionType,
-            options:[]
-        });
-
-        updatedSurvey.questionlist.push(question);
-    }
-    else
-    {
-        for(let i = 0; i < questionText.length; i++){
-            let question = new Question({
-                text:questionText[i],
-                type:questionType[i],
-                options:[]
-            });
-    
-            updatedSurvey.questionlist.push(question);
-        }
-    }
-
-    Survey.updateOne({_id:id}, updatedSurvey, (err) => {
-        if(err)
-        {
-            console.error(err);
-            res.end(err);
-        }
-        else
-        {
-            res.redirect('/survey');
-        }
-    });
-}
-
-
-
-module.exports.deleteSurvey = (req,res,next) => {
-    let id = req.params.id;
-
-    Response.deleteMany({surveyid:id}, (err) =>{
-        if(err)
-        {
-            console.error(err);
-            res.end(err);
-        }
-
-        Survey.remove({_id:id}, (err)=>{
+        Survey.create(newSurvey, (err) => {
             if(err)
             {
                 console.error(err);
@@ -205,9 +121,120 @@ module.exports.deleteSurvey = (req,res,next) => {
                 res.redirect('/survey');
             }
         });
+    }
+};
 
-    });
+module.exports.displayEditSurvey = (req,res,next) =>
+{
+    if (!req.user) 
+    {
+        req.flash('loginMessage', 'Authentication Error');
+        res.redirect('/login');
+    }
+    else
+    {
+        let id = req.params.id;
+        //Find the survey based on record id
+        Survey.findById(id, (err, currentsurvey) => {
+            if(err)
+            {
+                console.error(err);
+                res.end(err);
+            }
+            else
+            {
+                //questons is sent as its own list
+                res.render('survey/details', {
+                    title : "Edit Survey", 
+                    survey : currentsurvey,
+                    displayName: req.user ? req.user.displayName : '' 
+                    });
+            }
+        });
+    }
+}
 
+
+module.exports.editSurvey = (req,res,next) => {
+    if (!req.user) 
+    {
+        req.flash('loginMessage', 'Authentication Error');
+        res.redirect('/login');
+    }
+    else
+    {
+        let id = req.params.id;
+        let data = req.body;
+
+        let updatedSurvey = new Survey({
+            "_id": id,
+            title: data.title,
+            ownerId: req.user.id,
+            ownerName: req.user.displayName,
+            questionlist:[]
+        });
+
+        let questions = data.question;
+
+        for(let i = 0; i < questions.length; i++){
+
+            
+            let question = new Question({
+                        text: questions[i].Text,
+                        type: questions[i].Type,
+                        options:[]
+                    });
+            
+            updatedSurvey.questionlist.push(question);
+        }
+
+        Survey.updateOne({_id:id}, updatedSurvey, (err) => {
+            if(err)
+            {
+                console.error(err);
+                res.end(err);
+            }
+            else
+            {
+                res.redirect('/survey');
+            }
+        });
+    }
+}
+
+
+
+module.exports.deleteSurvey = (req,res,next) => {
+    if (!req.user) 
+    {
+        req.flash('loginMessage', 'Authentication Error');
+        res.redirect('/login');
+    }
+    else
+    {
+        let id = req.params.id;
+
+        Response.deleteMany({surveyid:id}, (err) =>{
+            if(err)
+            {
+                console.error(err);
+                res.end(err);
+            }
+
+            Survey.remove({_id:id}, (err)=>{
+                if(err)
+                {
+                    console.error(err);
+                    res.end(err);
+                }
+                else
+                {
+                    res.redirect('/survey');
+                }
+            });
+
+        });
+    }
 }
 
 module.exports.displaySurvey = (req,res,next) => {
@@ -255,31 +282,17 @@ module.exports.createResponse = (req,res,next) => {
         answers:[]
     });
 
-    let answerText = data.answerText;
-    let questionText = data.questionText;
-    answerText = convert(data)
-     let count= convert(data) 
-     console.log(count,data)
+    let answers = data.response
 
-    if(typeof answerText === "string")
-    {
-        let answer = new Answer({
-            questiontext: questionText,
-            answertext: answerText
-        })
-        newRespsonse.answers.push(answer);
-    }
-    else
-    {
+    for(let i = 0; i < answers.length; i++){
+
         
-        for(let i = 0; i < answerText.length; i++){
-            let answer = new Answer({
-                questiontext: questionText[i],
-                answertext: answerText[i]
-            })
+        let answer = new Answer({
+                    questiontext: answers[i].question,
+                    answertext: answers[i].answer
+        });
 
-            newRespsonse.answers.push(answer);
-        }
+        newRespsonse.answers.push(answer);
     }
 
     Response.create(newRespsonse, (err) => {
@@ -290,15 +303,28 @@ module.exports.createResponse = (req,res,next) => {
         }
         else
         {
-            res.redirect('/survey');
+            if (!req.user) 
+            {
+                res.redirect('/');
+            }
+            else{
+                res.redirect('/survey');
+            }
+            
         }
     });
 }
 
 module.exports.dispaySurveyResponses = (req,res,next) => {
-    let id = req.params.id;
-    
-        
+    if (!req.user) 
+    {
+        req.flash('loginMessage', 'Authentication Error');
+        res.redirect('/login');
+    }
+    else
+    {
+        let id = req.params.id;
+
         Response.find({surveyid:id},(err, responses)=> {
             if(err)
             {
@@ -318,58 +344,71 @@ module.exports.dispaySurveyResponses = (req,res,next) => {
                     displayName: req.user ? req.user.displayName : ''
                 });
             })
-
-            
         });
+    }
 }
 
 module.exports.dispaySurveyAnswers = (req,res,next) => {
-    let id = req.params.id;
+    if (!req.user) 
+    {
+        req.flash('loginMessage', 'Authentication Error');
+        res.redirect('/login');
+    }
+    else
+    {
+        let id = req.params.id;
 
-    Response.findById(id, (err, currentresponse) => {
-        if(err)
-        {
-            console.error(err);
-            res.end(err);
-        }
-        res.render('survey/responsedetails', {
-            title : "Survey Answers", 
-            response : currentresponse,
-            displayName: req.user ? req.user.displayName : ''});
-    });
+        Response.findById(id, (err, currentresponse) => {
+            if(err)
+            {
+                console.error(err);
+                res.end(err);
+            }
+            res.render('survey/responsedetails', {
+                title : "Survey Answers", 
+                response : currentresponse,
+                displayName: req.user ? req.user.displayName : ''});
+        });
+    }
 }
 
 module.exports.toggleVisibility = (req,res,next) => {
-    let id = req.params.id;
+    if (!req.user) 
+    {
+        req.flash('loginMessage', 'Authentication Error');
+        res.redirect('/login');
+    }
+    else
+    {
+        let id = req.params.id;
 
-    Survey.findById(id, (err, currentsurvey) => {
-        if(err)
-        {
-            console.error(err);
-            res.end(err);
-        }
-
-        if(currentsurvey.visible)
-        {
-            currentsurvey.visible = false;
-        }
-        else
-        {
-            currentsurvey.visible = true;
-        }
-
-        Survey.updateOne({_id:id}, currentsurvey, (err) => {
+        Survey.findById(id, (err, currentsurvey) => {
             if(err)
             {
                 console.error(err);
                 res.end(err);
             }
 
-            res.redirect("/survey");
-        });
-    });
+            if(currentsurvey.visible)
+            {
+                currentsurvey.visible = false;
+            }
+            else
+            {
+                currentsurvey.visible = true;
+            }
 
-    
+            Survey.updateOne({_id:id}, currentsurvey, (err) => {
+                if(err)
+                {
+                    console.error(err);
+                    res.end(err);
+                }
+
+                res.redirect("/survey");
+            });
+        });
+    }
 }
 
 module.exports.displayVisibleSuveys = (req,res,next) => {

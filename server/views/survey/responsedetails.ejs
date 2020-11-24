@@ -18,10 +18,15 @@
                 <h4><%= count+1 %>.&emsp;<%= question %></h4>
             </div>
             <div class="row">
+<<<<<<< HEAD
                 <% if(answer.length > 0) { %>
                 <p class="answerText"><%= answer %></p>
+=======
+                <% if(typeof answer !== "undefined" && answer.length > 0) { %>
+                    <p><i><%= answer %></i></p>
+>>>>>>> bcfe6c43f00933ea68b3223b0ffab115b9130810
                 <% } else { %>
-                <i>No answer provided</i>
+                    <i>No answer provided</i>
                 <% } %>
             </div>
         </div>

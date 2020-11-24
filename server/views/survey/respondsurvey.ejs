@@ -7,45 +7,53 @@
         <div class="row text-center justify-content-center survey-title h1"><%= survey.title %></div>   
     </div>
     <br>
-
     <div class="row justify-content-center">
         <div class="col-md-10 col-sm-10">
-            <div class="jumbotron jumbotron-fluid">
-                <form class="form px-5" method="post" id="surveyForm">
+            <div class="jumbotron">
+                <form class="form" method="post" id="surveyForm">
                     <fieldset id="mainFieldset">
-                        <input name="surveyTitle" value="<%= survey.title %> " hidden/>
-                        <% for(let count = 0; count < survey.questionlist.length; count++) { %>
-                            <% let question = survey.questionlist[count] %>
-                            <% let questionGroupId = "questionGroup" + count %>
-                            
-                            <div class="form-group" id="<%= questionGroupId %>">
-                                <div class="row">
-                                    <%= question.text %>
-                                    <input hidden name="questionText" value="<%= question.text %>">
-                                </div>
-                                <div class="row">
-                                    <% if(question.type == "select") { %>
-                                        <select id="answerinput<%= count %>" name="answerText" class="form-control" required>
-                                            <!--nothing for this yet finish in another sprint-->
-                                            <option value="default">Default</option>
-                                        </select>
-                                    <% } else if(question.type == "trueOrFalse") { %>  
-                                        <input type="radio" id="answerinput<%= count %>" name="answerText<%= count %>" value="true">
-                                        <label for="answerinput<%= count %>">True</label><br>
-                                        <input type="radio" id="answerinput<%= count %>" name="answerText<%= count %>" value="false">
-                                        <label for="answerinput<%= count %>">False</label><br> 
-                                    <% } else { %>
-                                        <input type="<%= question.type %>" id="answerinput<%= count %>" name="answerText" class="form-control" required/>
-                                    <% } %>
-                                </div>
-                            </div>
+                <input name="surveyTitle" value="<%= survey.title %> " hidden/>
+                <% for(let count = 0; count < survey.questionlist.length; count++) { %>
+                    <% let question = survey.questionlist[count] %>
+                    <% let questionGroupId = "questionGroup" + count %>
+                
+                <div class="form-group" id="<%= questionGroupId %>">
+                    <div class="row">
+                        <%= question.text %>
+                        <input hidden name="response[<%= count %>][question]" value="<%= question.text %>">
+                    </div>
+                    <div class="row">
+                        <% if(question.type == "select") { %>
+
+                            <select id="answerinput<%= count %>" name="response[<%= count %>][answer]" class="form-control" required>
+                                <!--nothing for this yet finish in another sprint-->
+                                <option value="default">Default</option>
+                            </select>
+                        
+                        <% } else if(question.type == "trueOrFalse") { %>
+
+                            <select id="answerinput<%= count %>" name="response[<%= count %>][answer]" class="form-control" required>
+                                <option value="" selected disabled hidden>Click to Select</option>
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                            </select>
+                        
+                        <% } else if(question.type == "textarea") { %>
+                        
+                            <textarea id="answerinput<%= count %>" name="response[<%= count %>][answer]" class="form-control" rows="5" required></textarea>
+                        
+                        <% } else { %>
+                        
+                            <input type="<%= question.type %>" id="answerinput<%= count %>" name="response[<%= count %>][answer]" class="form-control" required/>
                         
                         <% } %>
+                    </div>
+                </div>
+
+            <% } %>
                     </fieldset>
-        <div class="justify-content-center text-center pt-4">
-            <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Submit</button>
-            <a href="/survey" class="btn btn-warning"><i class="fa fa-undo"></i> Cancel</a>
-        </div>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-check-square-o"></i> Submit</button>
+        <a href="/" class="btn btn-warning"><i class="fa fa-undo"></i> Cancel</a>
                 </form>
             </div>
         </div>

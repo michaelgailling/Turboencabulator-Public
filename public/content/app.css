@@ -142,6 +142,7 @@ h1, h2, h3, h4, h5, h6, p, table, a, button {
 
 .jumbotron{
   background-color: #F4A33C;
+  border-radius: 0 !important;
 }
 
 .survey-title{
