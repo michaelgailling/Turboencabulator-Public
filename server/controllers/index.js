@@ -226,7 +226,7 @@ module.exports.procPasswordReset = (req,res,next) => {
             if( expiryDate < Date.now())
             {
                 user.resetExpiry = undefined;
-                user.resetCode = undefined;
+                user.resetToken = undefined;
 
                 user.save((err) => {
                     if (err){
@@ -248,7 +248,7 @@ module.exports.procPasswordReset = (req,res,next) => {
                 else 
                 {
                     user.resetExpiry = undefined;
-                    user.resetCode = undefined;
+                    user.resetToken = undefined;
                     
                     user.save((err) => {
                         if (err){
