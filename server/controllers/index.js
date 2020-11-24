@@ -195,7 +195,7 @@ module.exports.procForgotPassword = (req,res,next) =>{
 module.exports.displayPasswordReset = (req,res,next) => {
     if(!req.user) 
     {
-        res.render('auth/forgotreset', {
+        res.render('auth/reset', {
             title: 'Reset Password',
             message: req.flash('resetMessage'),
             displayName: req.user ? req.user.displayName : ''
