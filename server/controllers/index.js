@@ -113,7 +113,7 @@ module.exports.performLogout = (req, res, next) => {
 module.exports.displayForgotPassword = (req,res,next) =>{
     if(!req.user) {
         res.render('auth/forgot', {
-            title: 'Register',
+            title: 'Forgot Password',
             message: req.flash('forgotMessage'),
             displayName: req.user ? req.user.displayName : ''
         });
@@ -127,7 +127,13 @@ module.exports.procForgotPassword = (req,res,next) =>{
     let emailInput = req.body.email;
 
     User.findOne({ email: emailInput }, (err, user) => {
-        if (typeof users[0] === 'object') 
+        if(err)
+        {
+            console.error(err);
+            res.end(err);
+        }
+
+        if (typeof user === 'object') 
         {
 
             let resetCode = crypto.randomBytes(2).toString('hex');
@@ -137,6 +143,7 @@ module.exports.procForgotPassword = (req,res,next) =>{
                 username: user.username,
                 email: user.email,
                 displayName: user.displayName,
+                created: user.created,
                 update: Date.now(),
                 resetToken: resetCode,
                 resetExpiry: Date.now() + 3600000
@@ -170,7 +177,7 @@ module.exports.procForgotPassword = (req,res,next) =>{
                     console.log("Email sent: " + info.response);
                 }
             });
-            return res.redirect('/');
+            return res.redirect('/reset');
         }
         else
         {
@@ -178,4 +185,61 @@ module.exports.procForgotPassword = (req,res,next) =>{
             return res.redirect('/forgot');
         }
     });    
+}
+
+module.exports.displayPasswordReset = (req,res,next) => {
+    if(!req.user) {
+        res.render('auth/forgotreset', {
+            title: 'Reset Password',
+            message: req.flash('resetMessage'),
+            displayName: req.user ? req.user.displayName : ''
+        });
+    } else {
+        return res.redirect('/');
+    }
+}
+
+
+module.exports.procPasswordReset = (req,res,next) => {
+    let emailInput = req.body.email;
+    let codeInput = req.body.code;
+    let passwordInput = req.body.password;
+
+    User.findOne({ email: emailInput, resetToken: codeInput }, (err, user) => {
+        if(err)
+        {
+            console.error(err);
+            res.end(err);
+        }
+
+        if (typeof user === 'object') 
+        {
+            
+            let expiry = Date.parse(user.resetExpiry);
+            if( expiry < Date.now())
+            {
+                req.flash('resetMessage', 'Reset Code Has Expired');
+                return res.redirect('/reset');
+            }
+
+            user.setPassword(passwordInput, (err,user) => {
+                if(err){
+                    console.error(err);
+                    res.end(err);
+                } else {
+                    user.save((err) => {
+                        if (err){
+                            console.error(err);
+                            res.end(err);
+                        }
+                    });
+                   console.log("the password changed for this "+user)
+                }
+            });
+
+
+
+            return res.redirect('/');
+        }
+    });
 }

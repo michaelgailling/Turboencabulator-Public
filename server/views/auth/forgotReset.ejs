@@ -1,0 +1,49 @@
+<% include ../partials/header.ejs %>
+<% include ../partials/main_nav.ejs %>
+
+<main class="container">
+    <!-- Message Area -->
+    <% if(message.length > 0) { %>
+        <div class="alert alert-danger">
+            <%= message %>
+        </div>
+    <% } %>
+
+    <div style="width: 50%; margin: auto;">
+        <div>
+            <form method="post" autocomplete="off">
+                <fieldset class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control"
+                    name="email" placeholder="Enter Email" id="email" 
+                    required autofocus>
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label for="code">Email</label>
+                    <input type="text" class="form-control"
+                    name="code" placeholder="Enter Reset Code" id="code" 
+                    required autofocus>
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control"
+                    name="password" placeholder="Enter New Password" id="password" 
+                    required autofocus>
+                </fieldset>
+
+                <fieldset class="form-group text-right">
+                    <input type="submit" class="btn btn-success" value="Send Reset Code">
+                    <a href="/">
+                        <input type="button" class="btn btn-warning" value="Cancel">
+                    </a>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+</main>
+
+<% include ../partials/bottom_nav.ejs %>
+<% include ../partials/footer.ejs %>
