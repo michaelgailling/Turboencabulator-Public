@@ -8,31 +8,30 @@
     </div>
     <br>
     <div class="row justify-content-center">
-        <div class="col-md-10 col-sm-10">
-            <div class="jumbotron">
+        <div class="col-md-6 col-sm-10">
                 <form class="form" method="post" id="surveyForm">
-                    <fieldset id="mainFieldset">
-                <input name="surveyTitle" value="<%= survey.title %> " hidden/>
-                <% for(let count = 0; count < survey.questionlist.length; count++) { %>
-                    <% let question = survey.questionlist[count] %>
-                    <% let questionGroupId = "questionGroup" + count %>
-                
-                <div class="form-group" id="<%= questionGroupId %>">
-                    <div class="row">
-                        <%= question.text %>
-                        <input hidden name="response[<%= count %>][question]" value="<%= question.text %>">
-                    </div>
-                    <div class="row">
+                    <fieldset id="mainFieldset" class="pb-2">
+                        <input name="surveyTitle" value="<%= survey.title %> " hidden/>
+                        <% for(let count = 0; count < survey.questionlist.length; count++) { %>
+                            <% let question = survey.questionlist[count] %>
+                            <% let questionGroupId = "questionGroup" + count %>
+                        
+                        <div class="form-group" id="<%= questionGroupId %>">
+                            <div class="row">
+                                <%= question.text %>
+                                <input style="background-color: #E0D6C8;" hidden name="response[<%= count %>][question]" value="<%= question.text %>">
+                            </div>
+                            <div class="row pb-4">
                         <% if(question.type == "select") { %>
 
-                            <select id="answerinput<%= count %>" name="response[<%= count %>][answer]" class="form-control" required>
+                            <select style="background-color: #E0D6C8;" id="answerinput<%= count %>" name="response[<%= count %>][answer]" class="form-control" required>
                                 <!--nothing for this yet finish in another sprint-->
                                 <option value="default">Default</option>
                             </select>
                         
                         <% } else if(question.type == "trueOrFalse") { %>
 
-                            <select id="answerinput<%= count %>" name="response[<%= count %>][answer]" class="form-control" required>
+                            <select style="background-color: #E0D6C8;" id="answerinput<%= count %>" name="response[<%= count %>][answer]" class="form-control" required>
                                 <option value="" selected disabled hidden>Click to Select</option>
                                 <option value="true">True</option>
                                 <option value="false">False</option>
@@ -40,20 +39,26 @@
                         
                         <% } else if(question.type == "textarea") { %>
                         
-                            <textarea id="answerinput<%= count %>" name="response[<%= count %>][answer]" class="form-control" rows="5" required></textarea>
+                            <textarea style="background-color: #E0D6C8;" id="answerinput<%= count %>" name="response[<%= count %>][answer]" class="form-control" rows="5" required></textarea>
                         
                         <% } else { %>
                         
-                            <input type="<%= question.type %>" id="answerinput<%= count %>" name="response[<%= count %>][answer]" class="form-control" required/>
+                            <input style="background-color: #E0D6C8;" type="<%= question.type %>" id="answerinput<%= count %>" name="response[<%= count %>][answer]" class="form-control" required/>
                         
                         <% } %>
-                    </div>
-                </div>
-
-            <% } %>
+                            </div>
+                        <% } %>
                     </fieldset>
-        <button type="submit" class="btn btn-primary"><i class="fa fa-check-square-o"></i> Submit</button>
-        <a href="/" class="btn btn-warning"><i class="fa fa-undo"></i> Cancel</a>
+                    <fieldset class="form-group text-center">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6 col-sm-10 pb-3">
+                                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-paper-plane"></i>&nbsp;&nbsp;&nbsp; Submit</button>
+                            </div>
+                            <div class="col-md-6 col-sm-10">
+                                <a href="/" class="btn btn-warning w-100"><i class="fa fa-undo"></i>&nbsp;&nbsp;&nbsp; Cancel</a>
+                            </div>
+                        </div>
+                    </fieldset>
                 </form>
             </div>
         </div>

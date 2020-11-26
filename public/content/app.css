@@ -7,6 +7,7 @@ body {
   background-color: #24292E;
   font: 16px "Teko", Helvetica, Arial, sans-serif;
   color: #FEF4E7;
+  letter-spacing: 0.7px;
 }
 
 table { 
@@ -73,10 +74,10 @@ table thead th {
 }
 
 a {
-  color: #3F382F;
+  color: #3F382F; 
 }
 a:hover {
-  color: #9B5908;
+  color: #F4A33C;
   text-decoration: none;
 }
 
@@ -101,9 +102,9 @@ h1, h2, h3, h4, h5, h6, p, table, a, button {
   width: 100%;
 }
 .btn-view {
-  background-color: #F59E31;
-  border-color: #F59E31;
-  color: #FEF3E6;
+  background-color: #CCA674;
+  border-color: #CCA674;
+  color: #24292E;
 }
 .btn-view:hover {
   background-color: #9B5908;
@@ -172,4 +173,8 @@ h1, h2, h3, h4, h5, h6, p, table, a, button {
 
 .btn{
   border-radius: 0%;
+}
+
+input[type=text]{
+  background-color: #E0D6C8;
 }
