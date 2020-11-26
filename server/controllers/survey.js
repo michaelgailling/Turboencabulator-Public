@@ -258,20 +258,6 @@ module.exports.displaySurvey = (req,res,next) => {
 }
 
 module.exports.createResponse = (req,res,next) => {
-    const convert = (data) => {
-        const results = [];
-        const keys = Object.keys(data);
-           for(let i = 0; i < keys.length; i++) {
-          const key = keys[i];
-          if (key.startsWith('answerText')) {
-              const value = data[key];
-              results.push(value);
-          }
-        }
-          return results;
-      }
-    
- 
     let id = req.params.id;
 
     let data = req.body;
