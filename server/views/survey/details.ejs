@@ -1,7 +1,7 @@
 <% include ../partials/header.ejs %>
 <% include ../partials/main_nav.ejs %>
 
-<main class="container">
+<main class="container min-vh-100 p-5">
     <h1 style="text-align: center;"><%= title %></h1>
     <br>
     <div>
@@ -29,7 +29,7 @@
                             </div>
                             <div class="div-width-half div-margin-left">
                                 <label for="questionType<%= count %>">Question Type</label>
-                                <select id="questionType<%= count %>" name="question[<%= count %>][Type]" class="form-control">
+                                <select style="background-color: #E0D6C8;" id="questionType<%= count %>" name="question[<%= count %>][Type]" class="form-control">
 
                                     <% if(question.type == "text") { %>
                                     <option value="text" selected>
@@ -186,6 +186,7 @@
         questionType.id = "questionType" + numOfQuestions;
         questionType.name = "question["+numOfQuestions+"][Type]";
         questionType.className = "form-control";
+        questionType.style = "background-color: #E0D6C8"
 
         //Create the options and fill the selection box
         let optionDict = {

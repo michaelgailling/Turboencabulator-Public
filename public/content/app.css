@@ -1,8 +1,13 @@
+html{
+  scroll-behavior: smooth;
+}
+
 body {
   /* padding: 50px; */
-  background-color: #FEF3E6;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  margin-bottom: 80px;  
+  background-color: #24292E;
+  font: 16px "Teko", Helvetica, Arial, sans-serif;
+  color: #FEF4E7;
+  letter-spacing: 0.7px;
 }
 
 table { 
@@ -15,6 +20,8 @@ table {
   border-spacing: 0px;
   table-layout: fixed;
   max-width: 700px;
+  border-bottom-left-radius: 0%; 
+  border-bottom-right-radius: 0%;
 }
 .col1 {
   width: 85px;
@@ -48,7 +55,6 @@ th {
   font-size: 1.5rem;
 }
 td {
-  border-bottom: 1px solid #E0D5C7;   
   padding-left: 0px;
   padding-right: 0px;
 }
@@ -57,7 +63,7 @@ td, td a {
   font-weight: 500;
 }
 tr:nth-child(even) {
-  background-color: #FEEDD9;
+  background-color: #12181f;
 }
 th p {
   margin: 0px;
@@ -68,16 +74,16 @@ table thead th {
 }
 
 a {
-  color: #3F382F;
+  color: #3F382F; 
 }
 a:hover {
-  color: #9B5908;
+  color: #F4A33C;
   text-decoration: none;
 }
 
 h1, h2, h3, h4, h5, h6, p, table, a, button {
-  color: #24292E;
-  font-family: 'Roboto', sans-serif;
+  color: #FEF4E7;
+  font-family: 'Teko', sans-serif;
 }
 
 .btn-new {
@@ -96,9 +102,9 @@ h1, h2, h3, h4, h5, h6, p, table, a, button {
   width: 100%;
 }
 .btn-view {
-  background-color: #F59E31;
-  border-color: #F59E31;
-  color: #FEF3E6;
+  background-color: #CCA674;
+  border-color: #CCA674;
+  color: #24292E;
 }
 .btn-view:hover {
   background-color: #9B5908;
@@ -112,7 +118,7 @@ h1, h2, h3, h4, h5, h6, p, table, a, button {
   color: #ED6007;
 }
 .btn-sml {
-  font-size: 0.7rem; 
+  font-size: 0.85rem; 
 }
 .div-flex {
   margin-left: 0px; 
@@ -139,4 +145,36 @@ h1, h2, h3, h4, h5, h6, p, table, a, button {
 }
 .form-group-twiks {
   margin-bottom: 10px;
+}
+
+.jumbotron{
+  background-color: #F4A33C;
+  border-radius: 0 !important;
+}
+
+.survey-title{
+  color: #F4A33C;
+}
+
+.navbar-brand{
+  font-family: 'Big Shoulders Stencil Text', sans-serif;
+}
+
+#typewriter span{
+  border-right: .2em solid #ED6007;
+  animation: caret 1s steps(1) infinite;
+}
+
+@keyframes caret {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.btn{
+  border-radius: 0%;
+}
+
+input[type=text]{
+  background-color: #E0D6C8;
 }
