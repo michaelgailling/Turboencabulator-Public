@@ -3,39 +3,57 @@
 
 <main class="container min-vh-100 pb-5">
 
-  <h1 style="text-align: center;"><%= title %></h1>
-  <br>
-
-  <table style="border-bottom-left-radius: 0%; border-bottom-right-radius: 0%;">
-    <% for(let count = 0; count <  surveys.length; count++) { %>
-    <tr>
-      <td>
-        <a href="/survey/respond/<%= surveys[count]._id %>"> <%= surveys[count].title %> </a>
-      </td>
-      <td>
-        By: <%= surveys[count].ownerName %>
-      </td>
-    </tr>
-    <% } %>
-  </table>
-
   <div class="row min-vh-100 align-items-center justify-content-center text-center">
     <div class="col">
       <div class="pb-5">
+        <h1 class="display-2">Turboencabulator Surveys</h1>
+        <br>
+        <h3 id="typewriter">Test</h3>
+        <br>
+        <h5>Your Needs For Surveys</h5>
+      </div>
+      <div>
+        <div class="pb-1">
+          <a class="btn btn-info btn-lg pb-2" href="/register">Get Started &nbsp;&nbsp;<i class="fas fa-arrow-right"></i></a>
+        </div>
+        <br>
+        <h5>OR</h5>
+        <br>
+        <div class="h5 pt-1">
+          <a href="#available-surveys">Take Available Surveys
+            <br>
+            <i class="fas fa-arrow-circle-down"></i>
+          </a>
+        </div>
+      </div>      
+    </div>
+  </div>
+
+  <div id="available-surveys" class="row min-vh-100 align-items-center justify-content-center text-center">
+    <div class="col">
+      <div class="pb-3">
         <h1 class="display-2"><%= title %></h1>
         <br>
-        <h4>Welcome to Turboencabulator surveys</h2>
-          <br>
       </div>
-
-      <div>
-        <a class="btn btn-info btn-lg" href="/register">Get Started &nbsp;&nbsp;<i class="fas fa-arrow-right"></i></a>
-      </div>
+      <table>
+        <% for(let count = 0; count <  surveys.length; count++) { %>
+        <tr>
+          <td>
+            <a href="/survey/respond/<%= surveys[count]._id %>"> <%= surveys[count].title %> </a>
+          </td>
+          <td>
+            By: <%= surveys[count].ownerName %>
+          </td>
+        </tr>
+        <% } %>
+      </table>    
+      <br>
 
     </div>
   </div>
-</main>
 
+</main>
+<script src="/scripts/app.js"></script>
     
 <% include ../partials/bottom_nav.ejs %>
 <% include ../partials/footer.ejs %>

@@ -1,7 +1,12 @@
+html{
+  scroll-behavior: smooth;
+}
+
 body {
   /* padding: 50px; */
-  background-color: #FEF3E6;
+  background-color: #24292E;
   font: 16px "Teko", Helvetica, Arial, sans-serif;
+  color: #FEF4E7;
 }
 
 table { 
@@ -14,6 +19,8 @@ table {
   border-spacing: 0px;
   table-layout: fixed;
   max-width: 700px;
+  border-bottom-left-radius: 0%; 
+  border-bottom-right-radius: 0%;
 }
 .col1 {
   width: 85px;
@@ -47,7 +54,6 @@ th {
   font-size: 1.5rem;
 }
 td {
-  border-bottom: 1px solid #E0D5C7;   
   padding-left: 0px;
   padding-right: 0px;
 }
@@ -56,7 +62,7 @@ td, td a {
   font-weight: 500;
 }
 tr:nth-child(even) {
-  background-color: #FEEDD9;
+  background-color: #12181f;
 }
 th p {
   margin: 0px;
@@ -75,7 +81,7 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5, h6, p, table, a, button {
-  color: #24292E;
+  color: #FEF4E7;
   font-family: 'Teko', sans-serif;
 }
 
@@ -151,4 +157,19 @@ h1, h2, h3, h4, h5, h6, p, table, a, button {
 
 .navbar-brand{
   font-family: 'Big Shoulders Stencil Text', sans-serif;
+}
+
+#typewriter span{
+  border-right: .2em solid #ED6007;
+  animation: caret 1s steps(1) infinite;
+}
+
+@keyframes caret {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.btn{
+  border-radius: 0%;
 }

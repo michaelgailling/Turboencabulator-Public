@@ -5,49 +5,70 @@
 <main class="container min-vh-100 p-5">
     <!-- Message Area -->
     <% if(message.length > 0) { %>
-        <div class="alert alert-danger">
-            <%= message %>
+        <div class="row justify-content-center p-5">
+            <div class="col-6 text-center justify-content-center">
+                <div class="alert alert-danger text-center">
+                    <%= message %>
+                </div>
+            </div>
         </div>
     <% } %>
 
-    <div style="width: 50%; margin: auto;">
-        <div>
-            <h1>Please Register</h1>
+    <div class="row text-center justify-content-center">
+        <div class="col-md-10 col-sm-10 justify-content-center pb-5">
+            <h1>Register An Account</h1>
+            <p>
+                An account is required to create surveys and view survey responses
+            </p>
+        </div>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-sm-10">
             <form method="post" autocomplete="off">
                 <fieldset class="form-group">
                     <label for="username">Username</label>
                     <input type="text" class="form-control"
-                    name="username" placeholder="Enter username" id="username" 
+                    name="username" placeholder="Enter Username" id="username" 
                     required autofocus>
                 </fieldset>
-
+            
                 <fieldset class="form-group">
                     <label for="email">Email</label>
                     <input type="email" class="form-control"
                     name="email" placeholder="Enter Email Address" id="email" 
                     required autofocus>
                 </fieldset>
-
+            
                 <fieldset class="form-group">
                     <label for="displayName">Display Name</label>
                     <input type="text" class="form-control"
                     name="displayName" placeholder="Enter Display Name" id="displayName" 
                     required autofocus>
                 </fieldset>
-
+            
                 <fieldset class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control"
                     name="password" placeholder="Enter password" id="password" 
                     required autofocus>
+                    <br>
+                    <h6>Already have an account? <a href="/login">Login Here!</a></h6>
+                </fieldset>
+                
+                <fieldset class="form-group text-center">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 col-sm-10 pb-3">
+                            <input type="submit" class="btn btn-success w-100" value="Register">
+                        </div>
+                        <div class="col-md-6 col-sm-10">
+                            <a href="/">
+                                <input type="button" class="btn btn-warning w-100" value="Cancel">
+                            </a>
+                        </div>
+                    </div>
                 </fieldset>
 
-                <fieldset class="form-group text-right">
-                    <input type="submit" class="btn btn-success" value="Register">
-                    <a href="/">
-                        <input type="button" class="btn btn-warning" value="Cancel">
-                    </a>
-                </fieldset>
             </form>
         </div>
     </div>
