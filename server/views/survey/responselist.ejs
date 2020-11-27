@@ -1,10 +1,14 @@
 <% include ../partials/header.ejs %>
 <% include ../partials/main_nav.ejs %>
 
-<main class="container">
-    <h1><%= title %> for <%= surveytitle %></h1>
+<main class="container min-vh-100 p-5">
+
+    <div class="col-md-12 col-sm-10 justify-content-center pb-5">
+        <div class="row text-center justify-content-center h1"><%= title %> for</div>
+        <div class="row text-center justify-content-center survey-title h1"><%= surveytitle %></div>   
+    </div>
     <br>
-    <table class="table table-bordered">
+    <table>
         <tr>
             <th>
                 Response Link
