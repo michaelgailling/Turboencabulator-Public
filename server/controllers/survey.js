@@ -198,6 +198,8 @@ module.exports.editSurvey = (req,res,next) => {
             questionlist:[],
             created:Date.parse(data.created),
             updated: Date.now(),
+            enabled: data.enabled,
+            visible: data.visible
         });
 
         if(data.expiryDate && data.expiryDate != "")
@@ -282,7 +284,8 @@ module.exports.displaySurvey = (req,res,next) => {
     Survey.findOne(
     {
         "_id":id,
-        visible:true, 
+        enabled: true,
+        visible: true, 
         $or: 
         [ 
             {expiryDate: {$gte: dateNow.toISOString()}}, 
@@ -473,11 +476,51 @@ module.exports.toggleVisibility = (req,res,next) => {
     }
 }
 
+module.exports.toggleEnable = (req,res,next) => {
+    if (!req.user) 
+    {
+        req.flash('loginMessage', 'Authentication Error');
+        res.redirect('/login');
+    }
+    else
+    {
+        let id = req.params.id;
+
+        Survey.findById(id, (err, currentsurvey) => {
+            if(err)
+            {
+                console.error(err);
+                res.end(err);
+            }
+
+            if(currentsurvey.enabled)
+            {
+                currentsurvey.enabled = false;
+            }
+            else
+            {
+                currentsurvey.enabled = true;
+            }
+
+            Survey.updateOne({_id:id}, currentsurvey, (err) => {
+                if(err)
+                {
+                    console.error(err);
+                    res.end(err);
+                }
+
+                res.redirect("/survey");
+            });
+        });
+    }
+}
+
 module.exports.displayVisibleSuveys = (req,res,next) => {
     let dateNow = new Date();
     Survey.find(
     {
-        visible:true, 
+        enabled: true,
+        visible: true, 
         $or: 
         [ 
             {expiryDate: {$gte: dateNow.toISOString()}}, 

@@ -42,6 +42,9 @@ router.get('/responses/:id', surveyController.dispaySurveyResponses);
 router.get('/answers/:id', surveyController.dispaySurveyAnswers);
 
 /* POST toggle visibility */
-router.get('/toggle/:id', surveyController.toggleVisibility);
+router.get('/togglevisible/:id', surveyController.toggleVisibility);
+
+/* POST toggle survey access */
+router.get('/toggleenable/:id', surveyController.toggleEnable);
 
 module.exports = router;

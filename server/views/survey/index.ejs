@@ -16,9 +16,16 @@
             </td>
             <td class="col2">
                 <% if(surveys[count].visible) { %>
-                    <a href="/survey/toggle/<%= surveys[count]._id %>" class="btn btn-sml btn-success">Visible</a>
+                    <a href="/survey/togglevisible/<%= surveys[count]._id %>" class="btn btn-sml btn-success">Visible</a>
                 <% } else { %>
-                    <a href="/survey/toggle/<%= surveys[count]._id %>" class="btn btn-sml btn-danger">Hidden</a>
+                    <a href="/survey/togglevisible/<%= surveys[count]._id %>" class="btn btn-sml btn-danger">Hidden</a>
+                <% } %>
+            </td>
+            <td class="col2">
+                <% if(surveys[count].enabled) { %>
+                    <a href="/survey/toggleenable/<%= surveys[count]._id %>" class="btn btn-sml btn-success">Enabled</a>
+                <% } else { %>
+                    <a href="/survey/toggleenable/<%= surveys[count]._id %>" class="btn btn-sml btn-danger">Disabled</a>
                 <% } %>
             </td>
             <td class="col3">
