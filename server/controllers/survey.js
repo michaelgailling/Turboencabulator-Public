@@ -7,18 +7,12 @@
  * 
 \*/
 
-let express = require('express');
-let router = express.Router;
-
 //DB
-let mongoose = require('mongoose');
-
 let Survey = require('../models/survey');
 let Question = require('../models/question');
 
 let Response = require('../models/response');
 let Answer = require('../models/answer');
-const survey = require('../models/survey');
 
 module.exports.displaySurveyList = (req,res,next) => 
 {
