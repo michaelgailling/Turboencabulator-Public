@@ -103,9 +103,9 @@ module.exports.createSurvey = (req,res,next) => {
 
         
 
-        if(data.expiryDate != "")
+        if(data.expiryDate && data.expiryDate != "")
         {
-            newSurvey.expiryDate = Date.parse(data.expiryDate)
+            newSurvey.expiryDate = Date.parse(data.expiryDate) + 86399999;
         }
 
         let questions = data.question;
@@ -200,9 +200,9 @@ module.exports.editSurvey = (req,res,next) => {
             updated: Date.now(),
         });
 
-        if(data.expiryDate != "")
-        {
-            updatedSurvey.expiryDate = Date.parse(data.expiryDate)
+        if(data.expiryDate && data.expiryDate != "")
+        {            
+            updatedSurvey.expiryDate = Date.parse(data.expiryDate) + 86399999;
         }
         else
         {
@@ -295,7 +295,7 @@ module.exports.displaySurvey = (req,res,next) => {
             console.error(err);
             res.end(err);
         }
-        else if (currentsurvey == null)
+        else if (!currentsurvey)
         {
             let message1 = new Question({
                 text:"Sorry the selected survey is not available.",

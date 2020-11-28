@@ -55,6 +55,11 @@ let surveySchema = Schema
         {
             type: Date
         },
+        enabled:
+        {
+            type: Boolean,
+            default :true
+        },
         visible:
         {
             type: Boolean,
