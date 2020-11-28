@@ -32,7 +32,7 @@ module.exports.displaySurveyList = (req,res,next) =>
         //Find and list all the surveys
         Survey.find({ownerId : req.user.id}, (err, surveys) => {
             if (err) {
-            return console.error(err);
+                return console.error(err);
             }
             else {
                 
@@ -285,7 +285,6 @@ module.exports.displaySurvey = (req,res,next) => {
     {
         "_id":id,
         enabled: true,
-        visible: true, 
         $or: 
         [ 
             {expiryDate: {$gte: dateNow.toISOString()}}, 

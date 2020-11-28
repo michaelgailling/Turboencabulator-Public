@@ -7,18 +7,27 @@
   
   <table style="border-bottom-left-radius: 0%; border-bottom-right-radius: 0%;">
       <% for(let count = 0; count <  surveys.length; count++) { %>
+        <% let expiryStr = "None" %>
+        <% if(surveys[count].expiryDate) { %>
+            <% expiryStr = surveys[count].expiryDate.toString().substr(0, 10) %>  
+        <% } %>
+
+
         <tr>
             <td>
                 <a href="/survey/respond/<%= surveys[count]._id %>"> <%= surveys[count].title %> </a>
+            </td>
+            <td>
+                <p>Expiry Date: <%= expiryStr %></p>
             </td>
             <td class="col1">
                 <a href="/survey/responses/<%= surveys[count]._id %>" class="btn btn-view btn-sml">Responses</a>
             </td>
             <td class="col2">
                 <% if(surveys[count].visible) { %>
-                    <a href="/survey/togglevisible/<%= surveys[count]._id %>" class="btn btn-sml btn-success">Visible</a>
+                    <a href="/survey/togglevisible/<%= surveys[count]._id %>" class="btn btn-sml btn-success">Public</a>
                 <% } else { %>
-                    <a href="/survey/togglevisible/<%= surveys[count]._id %>" class="btn btn-sml btn-danger">Hidden</a>
+                    <a href="/survey/togglevisible/<%= surveys[count]._id %>" class="btn btn-sml btn-danger">Private</a>
                 <% } %>
             </td>
             <td class="col2">

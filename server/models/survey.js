@@ -58,12 +58,12 @@ let surveySchema = Schema
         enabled:
         {
             type: Boolean,
-            default :true
+            default :false
         },
         visible:
         {
             type: Boolean,
-            default: true
+            default: false
         }
     },
     {
