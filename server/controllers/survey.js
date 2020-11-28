@@ -18,6 +18,7 @@ let Question = require('../models/question');
 
 let Response = require('../models/response');
 let Answer = require('../models/answer');
+const survey = require('../models/survey');
 
 module.exports.displaySurveyList = (req,res,next) => 
 {
@@ -71,9 +72,13 @@ module.exports.displayCreateSurvey = (req,res,next) =>
             questionlist:[newQuestion,newQuestion2]
         });
 
+        let todaysDate = new Date();
+
         return res.render('survey/details', {
             title: 'Create Survey', 
-            survey: newSurvey, 
+            survey: newSurvey,
+            todaysDate: todaysDate.toISOString().substr(0, 10), 
+            currentExpiryDate:"",
             displayName: req.user ? req.user.displayName : ''
         });
     }
@@ -95,6 +100,13 @@ module.exports.createSurvey = (req,res,next) => {
             ownerName: req.user.displayName,
             questionlist:[]
         });
+
+        
+
+        if(data.expiryDate != "")
+        {
+            newSurvey.expiryDate = Date.parse(data.expiryDate)
+        }
 
         let questions = data.question;
 
@@ -143,10 +155,22 @@ module.exports.displayEditSurvey = (req,res,next) =>
             }
             else
             {
+                let todaysDate = new Date();
+                let expiryDate = new Date();
+                let expiryDatestr = "";
+
+                if(currentsurvey.expiryDate && currentsurvey.expiryDate != "")
+                {
+                    expiryDate = new Date(currentsurvey.expiryDate);
+                    expiryDatestr = expiryDate.toISOString().substr(0, 10);
+                }
+
                 //questons is sent as its own list
                 res.render('survey/details', {
                     title : "Edit Survey", 
                     survey : currentsurvey,
+                    todaysDate: todaysDate.toISOString().substr(0, 10),
+                    currentExpiryDate: expiryDatestr, 
                     displayName: req.user ? req.user.displayName : '' 
                     });
             }
@@ -165,14 +189,25 @@ module.exports.editSurvey = (req,res,next) => {
     {
         let id = req.params.id;
         let data = req.body;
-
+ 
         let updatedSurvey = new Survey({
             "_id": id,
             title: data.title,
             ownerId: req.user.id,
             ownerName: req.user.displayName,
-            questionlist:[]
+            questionlist:[],
+            created:Date.parse(data.created),
+            updated: Date.now(),
         });
+
+        if(data.expiryDate != "")
+        {
+            updatedSurvey.expiryDate = Date.parse(data.expiryDate)
+        }
+        else
+        {
+            updatedSurvey.expiryDate = ""
+        }
 
         let questions = data.question;
 
@@ -237,14 +272,55 @@ module.exports.deleteSurvey = (req,res,next) => {
     }
 }
 
+
+
+
 module.exports.displaySurvey = (req,res,next) => {
     let id = req.params.id;
+    let dateNow = new Date();
     //Find the survey based on record id
-    Survey.findById(id, (err, currentsurvey) => {
+    Survey.findOne(
+    {
+        "_id":id,
+        visible:true, 
+        $or: 
+        [ 
+            {expiryDate: {$gte: dateNow.toISOString()}}, 
+            {expiryDate: undefined} 
+        ] 
+    },
+    (err, currentsurvey) => {
         if(err)
         {
             console.error(err);
             res.end(err);
+        }
+        else if (currentsurvey == null)
+        {
+            let message1 = new Question({
+                text:"Sorry the selected survey is not available.",
+                type:"message"
+            });
+            let message2 = new Question({
+                text:"Either it does not exist or the owner has restricted access to it.",
+                type:"message"
+            });
+            let message3 = new Question({
+                text:"Please contact the surveys creator if you still wish to participate.",
+                type:"message"
+            });
+            let messageSurvey = new Survey({
+                title: "Survey Unavailable",
+                questionlist:[message1,message2,message3]
+            });
+
+            messageSurvey.expired = true;
+
+            res.render('survey/respondsurvey', {
+                title : "Respond to survey", 
+                survey : messageSurvey,
+                displayName: req.user ? req.user.displayName : ''
+            });
         }
         else
         {
@@ -398,7 +474,17 @@ module.exports.toggleVisibility = (req,res,next) => {
 }
 
 module.exports.displayVisibleSuveys = (req,res,next) => {
-    Survey.find({visible:true}, (err, surveys) => {
+    let dateNow = new Date();
+    Survey.find(
+    {
+        visible:true, 
+        $or: 
+        [ 
+            {expiryDate: {$gte: dateNow.toISOString()}}, 
+            {expiryDate: undefined} 
+        ] 
+    }, (err, surveys) => {
+
         if(err)
         {
             console.error(err);
