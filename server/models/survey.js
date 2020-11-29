@@ -35,12 +35,30 @@ let surveySchema = Schema
             type: String,
             default:"",
             trim: true,
-            required: "OwnerId is required..."
+            required: "OwnerName is required..."
         },
         questionlist:
         {
             type: Array,
             question:Question
+        },
+        created:
+        {
+            type: Date,
+            default: Date.now
+        },
+        updated:{
+            type: Date,
+            default: Date.now
+        },
+        expiryDate:
+        {
+            type: Date
+        },
+        enabled:
+        {
+            type: Boolean,
+            default :false
         },
         visible:
         {
