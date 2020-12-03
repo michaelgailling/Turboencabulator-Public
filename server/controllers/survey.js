@@ -408,26 +408,34 @@ module.exports.dispaySurveyResponses = (req,res,next) => {
     else
     {
         let id = req.params.id;
-
-        Response.find({surveyid:id},(err, responses)=> {
+        Survey.findById({_id:id}, (err, survey) => {
             if(err)
             {
                 console.error(err);
                 res.end(err);
             }
-            Survey.findById({_id:id}, (err, survey) => {
-                if(err)
-                {
-                    console.error(err);
-                    res.end(err);
-                }
-
-                res.render('survey/responselist', {
-                    title:"Response List", 
-                    responses : responses, surveytitle : survey.title,
-                    displayName: req.user ? req.user.displayName : ''
+            else if (!survey || survey.ownerId != req.user.id)
+            {
+                res.redirect("/survey");
+            }
+            else
+            {
+                Response.find({surveyid:id},(err, responses)=> {
+                    if(err)
+                    {
+                        console.error(err);
+                        res.end(err);
+                    }
+                    else
+                    {
+                        res.render('survey/responselist', {
+                            title:"Response List", 
+                            responses : responses, surveytitle : survey.title,
+                            displayName: req.user ? req.user.displayName : ''
+                        });
+                    }
                 });
-            })
+            }
         });
     }
 }
