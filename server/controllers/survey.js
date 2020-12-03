@@ -460,7 +460,6 @@ module.exports.dispaySurveyAnswers = (req,res,next) => {
             else
             {
                 Survey.findById({_id:currentresponse.surveyid}, (err, survey) => {
-                    console.log(survey);
                     if(err)
                     {
                         console.error(err);
