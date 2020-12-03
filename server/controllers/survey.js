@@ -147,6 +147,10 @@ module.exports.displayEditSurvey = (req,res,next) =>
                 console.error(err);
                 res.end(err);
             }
+            else if (!currentsurvey || currentsurvey.ownerId != req.user.id)
+            {
+                res.redirect("/survey");
+            }
             else
             {
                 let todaysDate = new Date();
@@ -182,52 +186,60 @@ module.exports.editSurvey = (req,res,next) => {
     else
     {
         let id = req.params.id;
-        let data = req.body;
- 
-        let updatedSurvey = new Survey({
-            "_id": id,
-            title: data.title,
-            ownerId: req.user.id,
-            ownerName: req.user.displayName,
-            questionlist:[],
-            created:Date.parse(data.created),
-            updated: Date.now(),
-            enabled: data.enabled,
-            visible: data.visible
-        });
-
-        if(data.expiryDate && data.expiryDate != "")
-        {            
-            updatedSurvey.expiryDate = Date.parse(data.expiryDate) + 86399999;
-        }
-        else
-        {
-            updatedSurvey.expiryDate = ""
-        }
-
-        let questions = data.question;
-
-        for(let i = 0; i < questions.length; i++){
-
-            
-            let question = new Question({
-                        text: questions[i].Text,
-                        type: questions[i].Type,
-                        options:[]
-                    });
-            
-            updatedSurvey.questionlist.push(question);
-        }
-
-        Survey.updateOne({_id:id}, updatedSurvey, (err) => {
+        
+        Survey.findById(id, (err, currentsurvey) => {
             if(err)
             {
                 console.error(err);
                 res.end(err);
             }
+            else if (!currentsurvey || currentsurvey.ownerId != req.user.id)
+            {
+                res.redirect("/survey");
+            }
             else
             {
-                res.redirect('/survey');
+                let data = req.body;
+
+                let updatedSurvey = currentsurvey;
+                updatedSurvey.title = data.title;
+                updatedSurvey.questionlist = [];
+                updatedSurvey.updated = Date.now();
+                      
+                if(data.expiryDate && data.expiryDate != "")
+                {            
+                    updatedSurvey.expiryDate = Date.parse(data.expiryDate) + 86399999;
+                }
+                else
+                {
+                    updatedSurvey.expiryDate = ""
+                }
+        
+                let questions = data.question;
+        
+                for(let i = 0; i < questions.length; i++){
+        
+                    
+                    let question = new Question({
+                                text: questions[i].Text,
+                                type: questions[i].Type,
+                                options:[]
+                            });
+                    
+                    updatedSurvey.questionlist.push(question);
+                }
+        
+                Survey.updateOne({_id:id}, updatedSurvey, (err) => {
+                    if(err)
+                    {
+                        console.error(err);
+                        res.end(err);
+                    }
+                    else
+                    {
+                        res.redirect('/survey');
+                    }
+                });
             }
         });
     }
@@ -244,26 +256,40 @@ module.exports.deleteSurvey = (req,res,next) => {
     else
     {
         let id = req.params.id;
-
-        Response.deleteMany({surveyid:id}, (err) =>{
+        
+        Survey.findById(id, (err, currentsurvey) => {
             if(err)
             {
                 console.error(err);
                 res.end(err);
             }
-
-            Survey.remove({_id:id}, (err)=>{
-                if(err)
-                {
-                    console.error(err);
-                    res.end(err);
-                }
-                else
-                {
-                    res.redirect('/survey');
-                }
-            });
-
+            else if (!currentsurvey || currentsurvey.ownerId != req.user.id)
+            {
+                res.redirect("/survey");
+            }
+            else
+            {
+                Response.deleteMany({surveyid:id}, (err) =>{
+                    if(err)
+                    {
+                        console.error(err);
+                        res.end(err);
+                    }
+        
+                    Survey.remove({_id:id}, (err)=>{
+                        if(err)
+                        {
+                            console.error(err);
+                            res.end(err);
+                        }
+                        else
+                        {
+                            res.redirect('/survey');
+                        }
+                    });
+        
+                });
+            }
         });
     }
 }
@@ -382,26 +408,34 @@ module.exports.dispaySurveyResponses = (req,res,next) => {
     else
     {
         let id = req.params.id;
-
-        Response.find({surveyid:id},(err, responses)=> {
+        Survey.findById({_id:id}, (err, survey) => {
             if(err)
             {
                 console.error(err);
                 res.end(err);
             }
-            Survey.findById({_id:id}, (err, survey) => {
-                if(err)
-                {
-                    console.error(err);
-                    res.end(err);
-                }
-
-                res.render('survey/responselist', {
-                    title:"Response List", 
-                    responses : responses, surveytitle : survey.title,
-                    displayName: req.user ? req.user.displayName : ''
+            else if (!survey || survey.ownerId != req.user.id)
+            {
+                res.redirect("/survey");
+            }
+            else
+            {
+                Response.find({surveyid:id},(err, responses)=> {
+                    if(err)
+                    {
+                        console.error(err);
+                        res.end(err);
+                    }
+                    else
+                    {
+                        res.render('survey/responselist', {
+                            title:"Response List", 
+                            responses : responses, surveytitle : survey.title,
+                            displayName: req.user ? req.user.displayName : ''
+                        });
+                    }
                 });
-            })
+            }
         });
     }
 }
@@ -416,16 +450,30 @@ module.exports.dispaySurveyAnswers = (req,res,next) => {
     {
         let id = req.params.id;
 
-        Response.findById(id, (err, currentresponse) => {
+        Survey.findById({_id:id}, (err, survey) => {
             if(err)
             {
                 console.error(err);
                 res.end(err);
             }
-            res.render('survey/responsedetails', {
-                title : "Survey Answers", 
-                response : currentresponse,
-                displayName: req.user ? req.user.displayName : ''});
+            else if (!survey || survey.ownerId != req.user.id)
+            {
+                res.redirect("/survey");
+            }
+            else
+            {
+                Response.findById(id, (err, currentresponse) => {
+                    if(err)
+                    {
+                        console.error(err);
+                        res.end(err);
+                    }
+                    res.render('survey/responsedetails', {
+                        title : "Survey Answers", 
+                        response : currentresponse,
+                        displayName: req.user ? req.user.displayName : ''});
+                });
+            }
         });
     }
 }
@@ -446,25 +494,31 @@ module.exports.toggleVisibility = (req,res,next) => {
                 console.error(err);
                 res.end(err);
             }
-
-            if(currentsurvey.visible)
+            else if (!currentsurvey || currentsurvey.ownerId != req.user.id)
             {
-                currentsurvey.visible = false;
+                res.redirect("/survey");
             }
             else
             {
-                currentsurvey.visible = true;
-            }
-
-            Survey.updateOne({_id:id}, currentsurvey, (err) => {
-                if(err)
+                if(currentsurvey.visible)
                 {
-                    console.error(err);
-                    res.end(err);
+                    currentsurvey.visible = false;
+                }
+                else
+                {
+                    currentsurvey.visible = true;
                 }
 
-                res.redirect("/survey");
-            });
+                Survey.updateOne({_id:id}, currentsurvey, (err) => {
+                    if(err)
+                    {
+                        console.error(err);
+                        res.end(err);
+                    }
+
+                    res.redirect("/survey");
+                });
+            }
         });
     }
 }
@@ -485,25 +539,31 @@ module.exports.toggleEnable = (req,res,next) => {
                 console.error(err);
                 res.end(err);
             }
-
-            if(currentsurvey.enabled)
+            else if (!currentsurvey || currentsurvey.ownerId != req.user.id)
             {
-                currentsurvey.enabled = false;
+                res.redirect("/survey");
             }
             else
             {
-                currentsurvey.enabled = true;
-            }
-
-            Survey.updateOne({_id:id}, currentsurvey, (err) => {
-                if(err)
+                if(currentsurvey.enabled)
                 {
-                    console.error(err);
-                    res.end(err);
+                    currentsurvey.enabled = false;
+                }
+                else
+                {
+                    currentsurvey.enabled = true;
                 }
 
-                res.redirect("/survey");
-            });
+                Survey.updateOne({_id:id}, currentsurvey, (err) => {
+                    if(err)
+                    {
+                        console.error(err);
+                        res.end(err);
+                    }
+
+                    res.redirect("/survey");
+                });
+            }
         });
     }
 }
