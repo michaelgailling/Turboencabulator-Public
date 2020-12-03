@@ -494,25 +494,31 @@ module.exports.toggleVisibility = (req,res,next) => {
                 console.error(err);
                 res.end(err);
             }
-
-            if(currentsurvey.visible)
+            else if (!currentsurvey || currentsurvey.ownerId != req.user.id)
             {
-                currentsurvey.visible = false;
+                res.redirect("/survey");
             }
             else
             {
-                currentsurvey.visible = true;
-            }
-
-            Survey.updateOne({_id:id}, currentsurvey, (err) => {
-                if(err)
+                if(currentsurvey.visible)
                 {
-                    console.error(err);
-                    res.end(err);
+                    currentsurvey.visible = false;
+                }
+                else
+                {
+                    currentsurvey.visible = true;
                 }
 
-                res.redirect("/survey");
-            });
+                Survey.updateOne({_id:id}, currentsurvey, (err) => {
+                    if(err)
+                    {
+                        console.error(err);
+                        res.end(err);
+                    }
+
+                    res.redirect("/survey");
+                });
+            }
         });
     }
 }
