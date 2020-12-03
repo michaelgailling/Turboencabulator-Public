@@ -178,3 +178,8 @@ h1, h2, h3, h4, h5, h6, p, table, a, button {
 input[type=text]{
   background-color: #E0D6C8;
 }
+
+.withBackGround {
+  background: #24292E !important;
+  display: none;
+}

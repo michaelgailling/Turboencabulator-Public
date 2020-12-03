@@ -1,6 +1,33 @@
 <% include ../partials/header.ejs %>
 <% include ../partials/main_nav.ejs %>
 
+<script>
+
+    window.onload = (event) => {
+        
+        document.getElementById('buttonPDF').addEventListener('click',function() {
+            
+            let PDF = new jspdf.jsPDF('p', 'pt', [919.3, 650]);
+            PDF = PDF.setCharSpace(40);
+            let element = document.getElementById('PDFcontainer');
+            let cloneElement = element.cloneNode(true);
+            cloneElement.style.display = 'block';
+            cloneElement.style.width = '630px';
+
+            PDF.html(cloneElement, {
+                callback: function (doc) { 
+                    doc.save(); 
+                },
+                x: 10, 
+                y: 10
+            });
+        });
+    };
+
+    
+
+</script>
+
 <main class="container min-vh-100 p-5">
 
     <div class="col-md-12 col-sm-10 justify-content-center pb-5">
@@ -30,6 +57,37 @@
           </tr>
       <% } %>
     </table>
+    <button class="btn btn-primary btn-new btn-line" id="buttonPDF" style="border-top-left-radius: 0%; border-top-right-radius: 0%; font-size: 1.3rem; padding: 10px;">Download PDF</button>
+    
+    <div id="PDFcontainer" class="withBackGround">
+        <table>
+
+            <tr>
+                <th colspan="2"><%= surveytitle %></th>
+            </tr>
+
+            <% for (let countRes = 0; countRes <  responses.length; countRes++) { %>
+                <tr>
+                    <td colspan="2">
+                        ID: <%= responses[countRes]._id %>
+                    </td>
+                </tr>
+                <% for (let countAns = 0; countAns <  responses[countRes].answers.length; countAns++) { %>
+                    <tr>
+                        <td>
+                            <%= responses[countRes].answers[countAns].questiontext%>
+                        </td>
+                        <td>
+                            <%= responses[countRes].answers[countAns].answertext%>
+                        </td>
+                    </tr>
+                
+                <% } %>
+            <% } %>
+        
+        </table>
+    </div>
+    
     
 </main>
 
