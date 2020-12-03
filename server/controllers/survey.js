@@ -539,25 +539,31 @@ module.exports.toggleEnable = (req,res,next) => {
                 console.error(err);
                 res.end(err);
             }
-
-            if(currentsurvey.enabled)
+            else if (!currentsurvey || currentsurvey.ownerId != req.user.id)
             {
-                currentsurvey.enabled = false;
+                res.redirect("/survey");
             }
             else
             {
-                currentsurvey.enabled = true;
-            }
-
-            Survey.updateOne({_id:id}, currentsurvey, (err) => {
-                if(err)
+                if(currentsurvey.enabled)
                 {
-                    console.error(err);
-                    res.end(err);
+                    currentsurvey.enabled = false;
+                }
+                else
+                {
+                    currentsurvey.enabled = true;
                 }
 
-                res.redirect("/survey");
-            });
+                Survey.updateOne({_id:id}, currentsurvey, (err) => {
+                    if(err)
+                    {
+                        console.error(err);
+                        res.end(err);
+                    }
+
+                    res.redirect("/survey");
+                });
+            }
         });
     }
 }
