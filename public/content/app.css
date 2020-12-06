@@ -2,19 +2,47 @@ html{
   scroll-behavior: smooth;
 }
 
+#backgroundVid{
+
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -10;
+  /* background-attachment: fixed; */
+}
+
 body {
   /* padding: 50px; */
-  background-color: #24292E;
+  /* background-image: url('/assets/images/backgroundimage.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; */
+  /* background-color: #24292E; */
   font: 16px "Teko", Helvetica, Arial, sans-serif;
   color: #FEF4E7;
   letter-spacing: 0.7px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+main{
+  text-shadow: 0.5px 0.5px 0.6px #0000009b;
+  font-size: 22px;
+}
+
+table.jumbotron{
+  background-color: #24292ea9;
+  border-radius: 0;
 }
 
 table { 
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-  border: 1px solid #E0D5C7;
+  /* border: 1px solid #E0D5C7; */
   border-collapse: separate;
   border-radius: 8px;
   border-spacing: 0px;
@@ -63,7 +91,7 @@ td, td a {
   font-weight: 500;
 }
 tr:nth-child(even) {
-  background-color: #12181f;
+  background-color: #12181fa2;
 }
 th p {
   margin: 0px;
@@ -148,8 +176,12 @@ h1, h2, h3, h4, h5, h6, p, table, a, button {
 }
 
 .jumbotron{
-  background-color: #F4A33C;
-  border-radius: 0 !important;
+  background-color: #fef3e618;
+  /* border-radius: 0 !important; */
+  /* box-shadow: 0px 3px 3px 1px #F59E31; */
+  box-shadow: rgba(0,0,0,0.4) 0px 1px 5px 3px;
+  border-radius: 2px;
+  border: 0.2px solid #ccc; 
 }
 
 .survey-title{
@@ -182,4 +214,8 @@ input[type=text]{
 .withBackGround {
   background: #24292E !important;
   display: none;
+}
+
+#availableSurveys{
+
 }
