@@ -1,11 +1,11 @@
 <% include ../partials/header.ejs %>
 <% include ../partials/main_nav.ejs %>
 
-<main class="container min-vh-100 p-5">
+<main class="container min-vh-100 p-5" style="min-width: 578px;">
   <h1 style="text-align: center;"><%= title %></h1>
   <br>
   
-  <table style="border-bottom-left-radius: 0%; border-bottom-right-radius: 0%;">
+  <table style="border-bottom-left-radius: 0%; border-bottom-right-radius: 0%; min-width: 442px;">
       <% for(let count = 0; count <  surveys.length; count++) { %>
         <% let expiryStr = "None" %>
         <% if(surveys[count].expiryDate) { %>
@@ -20,21 +20,29 @@
             <td>
                 <p>Expiry Date: <%= expiryStr %></p>
             </td>
-            <td class="col1">
+            <td style="min-width: 63px; width: 20%;">
                 <a href="/survey/responses/<%= surveys[count]._id %>" class="btn btn-view btn-sml">Responses</a>
             </td>
+            <td style="width: 18%;">
+                <a class="btn btn-sml btn-accept" data-toggle="collapse" href="#collapseExample<%=surveys[count]._id%>" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Options
+                </a>
+            </td>
+            
+        </tr>
+        <tr class="collapse" id="collapseExample<%=surveys[count]._id%>">
             <td class="col2">
                 <% if(surveys[count].visible) { %>
-                    <a href="/survey/togglevisible/<%= surveys[count]._id %>" class="btn btn-sml btn-success">Public</a>
+                    <a href="/survey/togglevisible/<%= surveys[count]._id %>" class="btn btn-sml btn-success btn-accept">Public</a>
                 <% } else { %>
-                    <a href="/survey/togglevisible/<%= surveys[count]._id %>" class="btn btn-sml btn-danger">Private</a>
+                    <a href="/survey/togglevisible/<%= surveys[count]._id %>" class="btn btn-sml btn-danger btn-cancel">Private</a>
                 <% } %>
             </td>
             <td class="col2">
                 <% if(surveys[count].enabled) { %>
-                    <a href="/survey/toggleenable/<%= surveys[count]._id %>" class="btn btn-sml btn-success">Enabled</a>
+                    <a href="/survey/toggleenable/<%= surveys[count]._id %>" class="btn btn-sml btn-success btn-accept">Enabled</a>
                 <% } else { %>
-                    <a href="/survey/toggleenable/<%= surveys[count]._id %>" class="btn btn-sml btn-danger">Disabled</a>
+                    <a href="/survey/toggleenable/<%= surveys[count]._id %>" class="btn btn-sml btn-danger btn-cancel">Disabled</a>
                 <% } %>
             </td>
             <td class="col3">
