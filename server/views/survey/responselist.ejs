@@ -30,44 +30,44 @@
 </script>
 
 <main class="container min-vh-100 p-5">
-
-    <div class="col-md-12 col-sm-10 justify-content-center pb-5">
+    <div class="row justify-content-center">
+    <div class="col-md-8 col-sm-10 text-center justify-content-center pb-5 jumbotron">
         <div class="row text-center justify-content-center h1"><%= title %> for</div>
         <div class="row text-center justify-content-center survey-title h1"><%= surveytitle %></div>   
-    </div>
-    <br>
-    <table>
-        <tr>
-            <th>
-                Response Link
-            </th>
-            <th>
-                Response id
-            </th>
-        </tr>
-        <% for(let count = 0; count <  responses.length; count++) { %>
-          <tr>
-                <td>
-                    <a href="/survey/answers/<%= responses[count]._id %>">
-                        Click to see answers
-                    </a>
-                </td>
-                <td>
-                    <%= responses[count]._id %>
-                </td>
-          </tr>
-      <% } %>
-    </table>
-    <button class="btn btn-primary btn-new btn-line" id="buttonPDF" style="border-top-left-radius: 0%; border-top-right-radius: 0%; font-size: 1.3rem; padding: 10px;">Download PDF</button>
-    
-    <div id="PDFcontainer" class="withBackGround">
-        <table>
-
+        <br>
+        <table class="jumbotron p-0">
             <tr>
-                <th colspan="2"><%= surveytitle %></th>
+                <th>
+                    Response Link
+                </th>
+                <th>
+                    Response id
+                </th>
             </tr>
-
-            <% for (let countRes = 0; countRes <  responses.length; countRes++) { %>
+            <% for(let count = 0; count <  responses.length; count++) { %>
+                <tr>
+                    <td>
+                        <a href="/survey/answers/<%= responses[count]._id %>">
+                            Click to see answers
+                        </a>
+                    </td>
+                    <td>
+                        <%= responses[count]._id %>
+                    </td>
+                </tr>
+                <% } %>
+            </table>
+            <button class="btn btn-primary btn-new btn-line" id="buttonPDF" style="border-top-left-radius: 0%; border-top-right-radius: 0%; font-size: 1.3rem; padding: 10px;">Download PDF</button>
+    </div>
+    </div>
+            <div id="PDFcontainer" class="withBackGround">
+                <table>
+                    
+                    <tr>
+                        <th colspan="2"><%= surveytitle %></th>
+                    </tr>
+                    
+                    <% for (let countRes = 0; countRes <  responses.length; countRes++) { %>
                 <tr>
                     <td colspan="2">
                         ID: <%= responses[countRes]._id %>

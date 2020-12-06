@@ -184,6 +184,11 @@ h1, h2, h3, h4, h5, h6, p, table, a, button {
   border: 0.2px solid #ccc; 
 }
 
+.jumbotron .jumbotron{
+  background-color: #24292ea9;
+  border-radius: 0;
+}
+
 .survey-title{
   color: #F4A33C;
 }
@@ -214,8 +219,4 @@ input[type=text]{
 .withBackGround {
   background: #24292E !important;
   display: none;
-}
-
-#availableSurveys{
-
 }

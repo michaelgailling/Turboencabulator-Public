@@ -9,13 +9,12 @@
         <div class="col-md-8 col-sm-10 jumbotron">
             <h1 style="text-align: center;"><%= title %></h1>
             <br>
-            <table class="jumbotron px-0 py-2">
+            <table class="jumbotron p-0">
               <% for(let count = 0; count <  surveys.length; count++) { %>
                 <% let expiryStr = "None" %>
                 <% if(surveys[count].expiryDate) { %>
                     <% expiryStr = surveys[count].expiryDate.toString().substr(0, 10) %>  
                 <% } %>
-                
                 
                 <tr>
                     <td>
