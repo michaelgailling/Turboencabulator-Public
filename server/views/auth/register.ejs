@@ -1,8 +1,9 @@
 <% include ../partials/header.ejs %>
+<% include ../partials/backgroundloop.ejs %> 
 <% include ../partials/main_nav.ejs %>
 
 
-<main class="container min-vh-100 p-5">
+<main class="container min-vh-100 p-5" style="min-width: 578px;">
     <!-- Message Area -->
     <% if(message.length > 0) { %>
         <div class="row justify-content-center p-5">
@@ -14,18 +15,18 @@
         </div>
     <% } %>
 
-    <div class="row text-center justify-content-center">
-        <div class="col-md-10 col-sm-10 justify-content-center pb-5">
-            <h1>Register An Account</h1>
-            <p>
-                An account is required to create surveys and view survey responses
-            </p>
-        </div>
-    </div>
     
     <div class="row justify-content-center">
-        <div class="col-md-6 col-sm-10">
-            <form method="post" autocomplete="off">
+        <div class="col-md-6 col-sm-10 jumbotron py-5">
+            <div class="row text-center justify-content-center">
+                <div class="col-md-10 col-sm-10 justify-content-center pb-5">
+                    <h1>Register An Account</h1>
+                    <p>
+                        An account is required to create surveys and view survey responses
+                    </p>
+                </div>
+            </div>
+            <form class="jumbotron py-4" method="post" autocomplete="off">
                 <fieldset class="form-group">
                     <label for="username">Username</label>
                     <input style="background-color: #E0D6C8;" type="text" class="form-control"
