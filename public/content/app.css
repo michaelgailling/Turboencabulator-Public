@@ -220,3 +220,39 @@ input[type=text]{
   background: #24292E !important;
   display: none;
 }
+
+.btn-accept {
+  background-color: #1C90C9;
+  border-color: #1C90C9;
+}
+.btn-cancel {
+  background-color: #F59E31;
+  border-color: #F59E31;
+}
+.btn-accept:hover {
+  background-color: #076A9C;
+  border-color: #076A9C;
+}
+.btn-cancel:hover {
+  background-color: #9B5908;
+  border-color: #9B5908;
+}
+
+.link-btn {
+  display: block;
+  padding: .52rem 0rem;
+}
+.link-accept {
+  color: #1C90C9;
+}
+.link-cancel {
+  color: #F59E31;
+}
+.link-accept:hover {
+  color: #076A9C;
+}
+.link-cancel:hover {
+  color: #9B5908;
+}
+
+
