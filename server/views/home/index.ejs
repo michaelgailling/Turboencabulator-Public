@@ -1,14 +1,14 @@
 <% include ../partials/header.ejs %>
+<% include ../partials/backgroundloop.ejs %> 
 <% include ../partials/main_nav.ejs %>
 
 <main class="container min-vh-100 pb-5" style="min-width: 578px;">
-
   <div class="row min-vh-100 align-items-center justify-content-center text-center">
     <div class="col">
       <div class="pb-5">
         <h1 class="display-2">Turboencabulator Surveys</h1>
         <br>
-        <h3 id="typewriter">Test</h3>
+        <h3 id="typewriter">Turboencabulator Surveys</h3>
         <br>
         <h5>Your Needs For Surveys</h5>
       </div>
@@ -29,13 +29,13 @@
     </div>
   </div>
 
-  <div id="available-surveys" class="row min-vh-100 align-items-center justify-content-center text-center">
-    <div class="col">
-      <div class="pb-3">
+  <div id="available-surveys" class="row align-items-center justify-content-center text-center pt-5">
+    <div class="col-md-6 col-sm-10 jumbotron p-4" id="availableSurveys">
+      <div class="py-1">
         <h1 class="display-2"><%= title %></h1>
         <br>
       </div>
-      <table>
+      <table class="jumbotron p-0">
         <% for(let count = 0; count <  surveys.length; count++) { %>
         <tr>
           <td>
@@ -47,8 +47,6 @@
         </tr>
         <% } %>
       </table>    
-      <br>
-
     </div>
   </div>
 

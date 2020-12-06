@@ -2,7 +2,7 @@
 
     function Start() 
     {
-        console.log("App Staerted...");
+        console.log("App Started...");
         let deleteButtons = document.getElementsByName('deleteSurvey');
         console.log("btn found");
 
